@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
+import { Keyboard } from "@ionic-native/keyboard/ngx";
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,13 @@ export class LoginPage implements OnInit {
   public wavesPosition: number = 0;
   public wavesDifference: number = 80;
 
-  constructor() { }
+  constructor(public keyboard: Keyboard) { }
 
   ngOnInit() {
     //Bloqueando a navegação de arrastar para o lado os slides.
     // this.slides.lockSwipes(true);
+    //console.log('TECLADO ESTÁ VISIVEL: ', this.keyboard.isVisible)
+    
   }
 
   segmentChanged(event: any) {

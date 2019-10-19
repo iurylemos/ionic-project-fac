@@ -1,6 +1,10 @@
 <!-- Adicionando uma classe para bloquear quando quiser arrastar -->
 <ion-content class="swiper-no-swiping">
-  <div class="container top">
+  <!-- Vou colocar o hidden, para quando o usuário estiver no celular
+  E ele abrir o campo de login, esse campo é uma posição absoluta
+  e ele antes ficava em cima do campo de login, e ficava bugado
+  agora com o hidden, e o Keyboard, ele não fica mais -->
+  <div class="container top" [hidden]="keyboard.isVisible">
     <!-- Logo -->
     <img src="../../../assets/img/logo.png">
     <!-- Quando algum botão for alterado no segment
@@ -59,7 +63,7 @@ e saber qual botão que está ativo ou não -->
   </ion-slides>
   <div class="ocean">
     <div class="waves" [ngStyle]="{'background-position-x.px': wavesPosition }"></div>
-    <div class="container bottom ion-text-center">
+    <div class="container bottom ion-text-center" [hidden]="keyboard.isVisible">
       <span>O aplicativo que foi feito para o gerenciamento dos produtos da sua loja de surf!</span>
     </div>
   </div>
