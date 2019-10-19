@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginPage implements OnInit {
 
-  @ViewChild(IonSlides, { read: IonSlides , static: true }) slides: IonSlides;
+  @ViewChild(IonSlides, { read: IonSlides, static: true }) slides: IonSlides;
   public wavesPosition: number = 0;
   public wavesDifference: number = 80;
   public userLogin: User = {};
@@ -23,33 +23,33 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController,
     private toastController: ToastController,
     private authService: AuthService
-    ) { }
+  ) { }
 
   ngOnInit() {
     //Bloqueando a navegação de arrastar para o lado os slides.
     // this.slides.lockSwipes(true);
     //console.log('TECLADO ESTÁ VISIVEL: ', this.keyboard.isVisible)
-    
+
   }
 
   public segmentChanged(event: any) {
     // console.log(event)
-    if(event.detail.value === "login") {
+    if (event.detail.value === "login") {
       this.slides.slidePrev();
       //Animação para as ondinhas
       this.wavesPosition += this.wavesDifference;
-    }else {
+    } else {
       this.slides.slideNext();
       this.wavesPosition -= this.wavesDifference;
     }
   }
 
   public login() {
-
+    
   }
 
   async register() {
-    console.log(this.userRegister)
+    // console.log(this.userRegister)
     await this.presentLoading()
     //Antes era assim, mas com o ECMA ficou mais fácil com async await
     // await this.authService.register(this.userRegister).then(res => {
@@ -58,9 +58,22 @@ export class LoginPage implements OnInit {
     //Vou tentar registrar o usuário
     try {
       await this.authService.register(this.userRegister)
-    }catch(error) {
-      console.error(error)
-    }finally { 
+    } catch (error) {
+      // console.error(error)
+      //Como o error está vindo inglês do firebase, 
+      //vou transformar ele para português
+      let message: string;
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          message = "E-mail já está em uso"
+          break;
+        case "auth/invalid-email" :
+          message = "E-mail está no formato inválido"
+          break;
+      }
+      //Se der erro vou enviar ao toast que vai se o Alerta
+      this.presentToast(message)
+    } finally {
       this.loading.dismiss();
     }
   }
@@ -71,6 +84,14 @@ export class LoginPage implements OnInit {
       message: 'Por favor, aguarde...'
     });
     return this.loading.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000
+    });
+    toast.present();
   }
 
 }
