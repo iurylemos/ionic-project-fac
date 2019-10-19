@@ -44,8 +44,32 @@ export class LoginPage implements OnInit {
     }
   }
 
-  public login() {
-    
+  public async login() {
+    //Coloco o await aqui no loading
+    //pois só quero que seja executado dps q tiver apresentado pro user
+    await this.presentLoading()
+
+    try {
+      await this.authService.login(this.userLogin)
+      // this.route.navigate('/home')
+    } catch (error) {
+      // console.error(error)
+      //Como o error está vindo inglês do firebase, 
+      //vou transformar ele para português
+      let message: string;
+      switch (error.code) {
+        case "auth/wrong-password":
+          message = "Senha está incorreta"
+          break;
+        case "auth/user-not-found" :
+          message = "Usuário não existe"
+          break;
+      }
+      //Se der erro vou enviar ao toast que vai se o Alerta
+      this.presentToast(message)
+    } finally {
+      this.loading.dismiss();
+    }
   }
 
   async register() {
@@ -89,7 +113,7 @@ export class LoginPage implements OnInit {
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000
+      duration: 5000
     });
     toast.present();
   }

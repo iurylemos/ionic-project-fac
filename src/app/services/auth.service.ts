@@ -10,7 +10,8 @@ export class AuthService {
   constructor(private fireAuth: AngularFireAuth) { }
 
   public login(user: User) {
-
+    console.log(user)
+    return this.fireAuth.auth.signInWithEmailAndPassword(user.email, user.password);
   }
 
   public register(user: User) {
@@ -23,6 +24,7 @@ export class AuthService {
   }
 
   public getAuth() {
-
+    //Esse daqui é o objeto de autenticação do usuário
+    return this.fireAuth.auth;
   }
 }
