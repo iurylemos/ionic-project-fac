@@ -50,6 +50,9 @@ export class LoginPage implements OnInit {
     await this.presentLoading()
 
     try {
+      //Posso atribuir esse método abaixo que está sendo executado
+      //A uma variável, e partir dela pegar as informações do usuário
+  
       await this.authService.login(this.userLogin)
       // this.route.navigate('/home')
     } catch (error) {

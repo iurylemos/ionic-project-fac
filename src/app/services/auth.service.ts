@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   public logout() {
-
+    return this.fireAuth.auth.signOut();
   }
 
   public getAuth() {
