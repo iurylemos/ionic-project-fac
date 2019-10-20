@@ -10,8 +10,9 @@ const routes: Routes = [
   { path: 'home', loadChildren: './pages/home/home.module#HomePageModule', canActivate: [AuthGuard] },
   //Só pode acessar o login se o usuário estiver deslogado
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule', canActivate: [LoginGuard] },
-  { path: 'datails', loadChildren: './pages/datails/datails.module#DatailsPageModule', canActivate: [AuthGuard] },
-  { path: 'datails/:id', loadChildren: './pages/datails/datails.module#DatailsPageModule', canActivate: [AuthGuard] },
+  { path: 'details', loadChildren: './pages/details/details.module#DetailsPageModule', canActivate: [AuthGuard] },
+  { path: 'details/:id', loadChildren: './pages/details/details.module#DetailsPageModule', canActivate: [AuthGuard]  },
+  
 ];
 
 @NgModule({

@@ -32,11 +32,14 @@ export class ProductService {
   }
 
   public addProduct(product: Product) {
-
+    return this.productsCollection.add(product);
   }
 
   public getProduct(id: string) {
-
+    //Dessa vez utilizo o valueChanges pois quero pegar o id
+    //Se eu utilizasse no lugar do snapshot, não dava certo
+    //Pois lá iria faltar o id do produto
+    return this.productsCollection.doc<Product>(id).valueChanges();
   }
 
   public updateProduct(id:string, product: Product) {
