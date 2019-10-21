@@ -43,10 +43,14 @@ export class ProductService {
   }
 
   public updateProduct(id:string, product: Product) {
-
+    //Se eu quizesse atualizar apenas um campo de produto
+    //Eu poderia utilizar o set, no caso se fosse o preço e etc
+    //EX:
+    //return this.productsCollection.doc<Product>(id).set({ price: 399.99 })
+    return this.productsCollection.doc<Product>(id).update(product);
   }
 
   public deleteProduct(id: string) {
-
+    return this.productsCollection.doc<Product>(id).delete();
   }
 }

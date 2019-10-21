@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
     ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       this.products = data;
+      console.log(this.products)
     });
    }
 

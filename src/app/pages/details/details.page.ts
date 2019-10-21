@@ -15,8 +15,9 @@ export class DetailsPage implements OnInit {
 
   private product : Product = {};
   private loading: any;
-  private productId: string = null;
+  private productId: string = '';
   private productSubscription: Subscription
+  private productData: any
 
   constructor(
     private loadingController: LoadingController,
@@ -26,9 +27,12 @@ export class DetailsPage implements OnInit {
     private activedRouter: ActivatedRoute,
     private navController: NavController
   ) { 
-    this.productId = this.activedRouter.params['id'];
+    // this.productId = this.activedRouter.params['id'];
+    this.productData = this.activedRouter.snapshot.params;
 
-    if(this.productId) {
+    console.log(this.productData.id)
+    // console.log(this.productId)
+    if(this.productData.id) {
       this.loadProduct()
     }
   }
@@ -44,14 +48,24 @@ export class DetailsPage implements OnInit {
     this.product.userId = this.authService.getAuth().currentUser.uid
     //Se o produto existir vou tentar atualizar o produto
     //Se não existir vou criar um produto novo
-    if(this.productId) {
+    if(this.productData.id) {
+      try {
+        await this.productService.updateProduct(this.productData.id, this.product)
+        await this.loading.dismiss(); 
+
+        //navcontroller com navBack para voltar a pagina anterior
+        this.navController.navigateBack('/home');
+      }catch(error) {
+        this.presentToast('Erro ao tentar atualizar produto');
+        this.loading.dismiss()
+      }
 
     }else {
       this.product.createdAt = new Date().getTime();
 
       try {
         await this.productService.addProduct(this.product)
-        await this.loading.dismiss();
+        await this.loading.dismiss(); 
 
         //navcontroller com navBack para voltar a pagina anterior
         this.navController.navigateBack('/home');
@@ -79,7 +93,7 @@ export class DetailsPage implements OnInit {
   }
 
   public loadProduct() {
-    this.productSubscription = this.productService.getProduct(this.productId).subscribe(data => {
+    this.productSubscription = this.productService.getProduct(this.productData.id).subscribe(data => {
       this.product = data
     })
   }
