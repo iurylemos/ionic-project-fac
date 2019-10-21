@@ -97,4 +97,13 @@ export class DetailsPage implements OnInit {
       this.product = data
     })
   }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    //Criei a subscription aqui e vou deletar
+    if(this.productSubscription) {
+      this.productSubscription.unsubscribe();
+    }
+  }
 }
