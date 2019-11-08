@@ -1,0 +1,23 @@
+.ordem-compra {
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
+
+/* Apenas para elementos do tipo input
+E o ng-touched é quando o campo é tocado e ainda permanece inválidos */
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+select.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+
+input.ng-valid.ng-touched {
+  border: 1px solid green;
+}
+
+select.ng-valid.ng-touched {
+  border: 1px solid green;
+}

@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ordem-compra</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="ordem-compra" *ngIf="idPedidoCompra === undefined">
+      <form [formGroup]="formulario" (ngSubmit)="confirmarCompra()" novalidate>
+
+        <h5>Sua Compra</h5>
+        <hr />
+
+        <div class="form-row" *ngFor="let item of itensCarrinho"
+          style="background: #FAFAFA; padding: 20px; border-bottom: solid 1px #F0F0F0">
+          <div class="form-group col-sm-1">
+            <img [src]="item.img.url" class="img-fluid">
+          </div>
+          <div class="form-group col-sm-6">
+            {{ item.titulo }}
+            <br />
+            {{ item.descricao_oferta }}
+          </div>
+
+          <div>
+            <div class="row">
+              <div class="col">
+                <ion-button (click)="diminuir(item)" type="button" class="btn btn-link">-</ion-button>
+                {{ item.quantidade }}
+                <ion-button (click)="adicionar(item)" type="button" class="btn btn-link">+</ion-button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-3 d-flex justify-content-end">
+            {{ item.quantidade * item.valor | currency: 'BRL': true }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div *ngIf="carrinhoService.exibirItens().length > 0; else carrinhoVazio"
+            class="form-group col d-flex justify-content-end">
+            <h4>Total do pedido: {{ carrinhoService.totalCarrinhoCompras() | currency: 'BRL' }}</h4>
+          </div>
+          <ng-template #carrinhoVazio>
+            <div style="flex-wrap: wrap;" class="form-group col d-flex justify-content-center alert alert-danger">
+              Seu carrinho ainda está vázio! Não perca tempo, aproveite as ofertas. <a routerLink="/oferta"
+                class="alert-link" style="margin-left: 10px;"> Clique
+                aqui</a>
+            </div>
+          </ng-template>
+        </div>
+
+        <br />
+
+        <h5>Dados de entrega</h5>
+        <hr />
+
+        <div class="form-row">
+
+          <div class="form-group col-md-6">
+            <ion-input type="text" class="form-control" placeholder="Endereço" autocomplete="off"
+              formControlName="endereco"></ion-input>
+            <!-- Estou testando se no atributo do formulario o endereço está válido 
+                e se no endereço aqui já foi tocado, e sim é sucesso. Ok -->
+            <ion-note color="success" *ngIf="formulario.get('endereco').valid && formulario.get('endereco').touched"
+              class="form-text text-success">Ok</ion-note>
+            <ion-note color="danger" *ngIf="!formulario.get('endereco').valid && formulario.get('endereco').touched"
+              class="form-text text-danger">Endereco Inválido</ion-note>
+          </div>
+
+          <div class="form-group col-md-2">
+            <ion-input type="text" class="form-control" placeholder="Número" autocomplete="off"
+              formControlName="numero"></ion-input>
+            <ion-note color="success" *ngIf="formulario.get('numero').valid && formulario.get('numero').touched"
+              class="form-text text-success">Ok</ion-note>
+            <ion-note color="danger" *ngIf="!formulario.get('numero').valid && formulario.get('numero').touched"
+              class="form-text text-danger">Número inválido</ion-note>
+          </div>
+
+          <div class="form-group col-md-4">
+            <ion-input type="text" class="form-control" placeholder="Complemento" autocomplete="off"
+              formControlName="complemento"></ion-input>
+          </div>
+
+        </div>
+        <br />
+
+        <h5>Dados de pagamento</h5>
+        <hr />
+
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+            <ion-select class="form-control" formControlName="formaPagamento">
+              <ion-select-option value="">Selecione uma opção</ion-select-option>
+              <ion-select-option value="dinheiro">Dinheiro</ion-select-option>
+              <ion-select-option value="debito">Débito</ion-select-option>
+            </ion-select>
+            <ion-note color="success"
+              *ngIf="formulario.get('formaPagamento').valid && formulario.get('formaPagamento').touched"
+              class="form-text text-success">Ok</ion-note>
+            <ion-note color="danger"
+              *ngIf="!formulario.get('formaPagamento').valid && formulario.get('formaPagamento').touched"
+              class="form-text text-danger">Forma de Pagamento inválida</ion-note>
+          </div>
+        </div>
+
+        <hr />
+        <ion-button type="submit" class="btn btn-primary btn-lg">Confirmar compra</ion-button>
+      </form>
+    </div>
+    <div class="ordem-compra" *ngIf="idPedidoCompra !== undefined">
+      <!-- O ordem compra sucesso espera um parãmetro que é enviado pelo componente pai
+          Ou seja preciso fazer um input de idPedidoCompra, para que ordemCompraSucesso saiba como exibir
+        a informação dentro da nossa aplicação -->
+      <!-- <app-ordem-compra-sucesso [idPedidoCompra]="idPedidoCompra"></app-ordem-compra-sucesso> -->
+    </div>
+  </div>
+
+</ion-content>

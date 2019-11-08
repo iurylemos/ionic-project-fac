@@ -30,9 +30,10 @@ export class DetailsPage implements OnInit {
     // this.productId = this.activedRouter.params['id'];
     this.productData = this.activedRouter.snapshot.params;
 
-    console.log(this.productData.id)
-    // console.log(this.productId)
-    if(this.productData.id) {
+    // console.log(this.productData.id)
+    this.productId = this.productData.id
+    console.log(this.productId)
+    if(this.productId) {
       this.loadProduct()
     }
   }
@@ -48,9 +49,9 @@ export class DetailsPage implements OnInit {
     this.product.userId = this.authService.getAuth().currentUser.uid
     //Se o produto existir vou tentar atualizar o produto
     //Se não existir vou criar um produto novo
-    if(this.productData.id) {
+    if(this.productId) {
       try {
-        await this.productService.updateProduct(this.productData.id, this.product)
+        await this.productService.updateProduct(this.productId, this.product)
         await this.loading.dismiss(); 
 
         //navcontroller com navBack para voltar a pagina anterior
@@ -93,7 +94,7 @@ export class DetailsPage implements OnInit {
   }
 
   public loadProduct() {
-    this.productSubscription = this.productService.getProduct(this.productData.id).subscribe(data => {
+    this.productSubscription = this.productService.getProduct(this.productId).subscribe(data => {
       this.product = data
     })
   }

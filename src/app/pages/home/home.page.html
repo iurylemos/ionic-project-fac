@@ -27,7 +27,7 @@
   <ion-list>
     <ion-item-sliding *ngFor="let product of products">
       <!-- Ao clicar o usuário vai para a tela de detalhes, passando o id -->
-      <ion-item button [routerLink]="['/details', product.id]">
+      <ion-item (click)="showAlert(product)" button [routerLink]="['/details', product.id]">
         <ion-avatar slot="start">
           <img [src]="product.picture">
         </ion-avatar>
@@ -59,7 +59,7 @@
         </ion-col>
 
         <ion-col size="6">
-          <ion-button routerLink="/details" expand="block">
+          <ion-button [disabled]="!user.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
             Add produto
           </ion-button>
         </ion-col>
