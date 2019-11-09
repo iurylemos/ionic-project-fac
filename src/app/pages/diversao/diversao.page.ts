@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { Oferta } from 'src/app/shared/oferta.model';
 import { Router } from '@angular/router';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-diversao',
@@ -15,7 +16,8 @@ export class DiversaoPage implements OnInit {
 
   constructor(
     private ofertasService: OfertasService,
-    private _router: Router) { }
+    private _router: Router,
+    private _paramService : ParamsService) { }
 
   ngOnInit() {
     this.ofertasService.getOfertasPorCategoria('diversao')
@@ -27,7 +29,8 @@ export class DiversaoPage implements OnInit {
 
   passandoDados(event) {
     console.log(event)
-    this._router.navigate(['/tabs/diversao/oferta'], { queryParams: { offerId: event }, skipLocationChange: true })
+    this._paramService.setParams(event)
+    this._router.navigate(['/tabs/diversao/oferta'])
   }
 
 }

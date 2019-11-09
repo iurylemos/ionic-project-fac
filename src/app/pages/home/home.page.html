@@ -1,69 +1,67 @@
-<ion-header>
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>Passaro Shop</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="logo-ionic"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Destaques do dia!</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="star"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+<ion-item>
+  <ion-label class="ion-text-wrap">
+    Aproveite as super ofertas que separamos para você:
+  </ion-label>
+</ion-item>
+
 <ion-content>
-  <ion-list *ngIf="!products.length">
-    <ion-item *ngFor="let item of [0, 1, 2]">
-      <ion-avatar slot="start">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-        </p>
-        <p>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card *ngFor="let oferta of ofertas">
+    <img [src]="oferta.imagens[0].url" />
+    <ion-card-header>
+      <ion-card-subtitle>{{ oferta.descricao_oferta }}</ion-card-subtitle>
+      <ion-card-title>{{ oferta.titulo }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ oferta.valor | currency:'BRL' }}
+      <a (click)="passandoDados(oferta.id_oferta)" class="btn btn-outline-primary">Ver oferta</a>
+    </ion-card-content>
+  </ion-card>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let product of products">
-      <!-- Ao clicar o usuário vai para a tela de detalhes, passando o id -->
-      <ion-item (click)="showAlert(product)" button [routerLink]="['/details', product.id]">
-        <ion-avatar slot="start">
-          <img [src]="product.picture">
-        </ion-avatar>
-        <ion-label>
-          {{ product.name }}
-          <p>{{ product.description }}</p>
-          <p>{{ product.createdAt | date: 'short' }}</p>
-        </ion-label>
-
-        <ion-note color="primary" slot="end" *ngIf="product.price">{{ product.price | currency: 'BRL' }}</ion-note>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteProduct(product.id)">
-          <ion-icon slot="top" name="trash"></ion-icon>
-          Excluir
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
 </ion-content>
-<ion-footer>
-  <ion-toolbar>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <ion-button (click)="logout()" color="danger" expand="block">
-            Sair
-          </ion-button>
-        </ion-col>
 
-        <ion-col size="6">
-          <ion-button [disabled]="!user.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
-            Add produto
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-toolbar>
-</ion-footer>
+<!-- <div class="container">
+
+  <div class="secao">
+    <h3 class="text-center">Destaques do dia!</h3>
+    <h5 class="text-center">Aproveite as super ofertas que separamos para você:</h5>
+  </div>
+
+  <hr />
+
+  <div class="row" style="margin-bottom: 50px;">
+    <div class="col-sm-4" *ngFor="let oferta of ofertas">
+      <div class="card"> -->
+<!-- Property Binding atribuindo as imagens -->
+<!-- <img class="card-img-top" [src]="oferta.imagens[0].url">
+        <div class="card-block">
+          <h4 class="card-title">{{ oferta.titulo }}</h4>
+          <p class="card-text">{{ oferta.descricao_oferta }}</p>
+          <p class="preco">{{ oferta.valor | currency:'BRL' }}</p> -->
+<!-- Não vou simplesmente acessar a rota oferta -->
+<!-- Preciso passar um parâmetro, boto o property Binding no routerLink -->
+<!-- Para passar um array, que contem a rota e o parâmetro -->
+<!-- <a [routerLink]="['/oferta', oferta.id_oferta]" class="btn btn-outline-primary">Ver oferta</a>
+        </div>
+      </div>
+    </div>
+    <hr />
+
+  </div> -->

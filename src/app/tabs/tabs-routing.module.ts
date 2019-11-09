@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { CommonModule } from '@angular/common';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,6 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
+        canActivate: [AuthGuard] ,
         children: [
           {
             path: '',
@@ -20,6 +22,7 @@ const routes: Routes = [
       },
       {
         path: 'restaurantes',
+        canActivate: [AuthGuard] ,
         children: [
           {
             path: '',
@@ -35,6 +38,7 @@ const routes: Routes = [
       },
       {
         path: 'diversao',
+        canActivate: [AuthGuard] ,
         children: [
           {
             path: '',
@@ -62,11 +66,12 @@ const routes: Routes = [
       },
       {
         path: 'perfil',
+        canActivate: [AuthGuard] ,
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../pages/ordem-compra/ordem-compra.module').then(m => m.OrdemCompraPageModule)
+              import('../pages/account/account.module').then(m => m.AccountPageModule)
           }
         ]
       },

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { Oferta } from 'src/app/shared/oferta.model';
 import { Router } from '@angular/router';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-restaurantes',
@@ -15,7 +16,8 @@ export class RestaurantesPage implements OnInit {
 
   constructor(
     private ofertasService: OfertasService,
-    private _router: Router
+    private _router: Router,
+    private _paramService : ParamsService
     ) { }
 
   ngOnInit() {
@@ -30,6 +32,7 @@ export class RestaurantesPage implements OnInit {
 
   passandoDados(event) {
     console.log(event)
-    this._router.navigate(['/tabs/restaurantes/oferta'], { queryParams: { offerId: event }, skipLocationChange: true })
+    this._paramService.setParams(event)
+    this._router.navigate(['/tabs/restaurantes/oferta'])
   }
 }

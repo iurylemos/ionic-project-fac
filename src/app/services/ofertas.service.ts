@@ -18,7 +18,7 @@ export class OfertasService {
   //Para criar um serviço, precisamos passar essa instancia
   //Dessa serviço, no construtor da classe
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public getOfertas(): Promise<Oferta[]> {
     //Efetuar uma requisição HTTP e retornar uma promessa
@@ -38,7 +38,7 @@ export class OfertasService {
     //Contendo um arry de ofertas
   }
 
-  public getOfertasPorCategoria(categoria: string) : Promise<Oferta[]> {
+  public getOfertasPorCategoria(categoria: string): Promise<Oferta[]> {
     return this.http.get<Oferta[]>(`${URL_API}/ofertas?categoria=${categoria}`)
       .toPromise()
       .then((o => this.ofertas = o))
@@ -48,35 +48,35 @@ export class OfertasService {
   //E utilizasse a função shift, nós iriamos extrair
   //O valor contido dentro do indice 0 do array
   //E os valors contido 1,2 seriam deslocados para o 1
-  public getOfertaPorId(id: number) : Promise<Oferta> {
+  public getOfertaPorId(id: number): Promise<Oferta> {
     console.log(id)
-    return this.http.get<Oferta[]>(`${URL_API}/ofertas?id_oferta=${id}`)
-    .toPromise()
-    .then(( o => {
-      console.log(o)
-      return o.shift();
-    }))
+      return this.http.get<Oferta[]>(`${URL_API}/ofertas?id_oferta=${id}`)
+        .toPromise()
+        .then((o => {
+          console.log(o)
+          return o.shift();
+        }))
   }
 
   //como o retorno do banco de dados é apenas uma descrição
   //Nós não vamos precisar montar um objeto mais completo para
   //obter esse retorno
-  public getComoUsarOfertaPorId(id: number) : Promise<string> {
+  public getComoUsarOfertaPorId(id: number): Promise<string> {
     return this.http.get<string>(`${URL_API}/como-usar?id_comousar=${id}`)
-    .toPromise()
-    .then(( comoUsar => {
-      // console.log(comoUsar[0].descricao)
-      return comoUsar
-    }))
+      .toPromise()
+      .then((comoUsar => {
+        // console.log(comoUsar[0].descricao)
+        return comoUsar
+      }))
   }
 
-  public getOndeFicaOfertaPorId(id: number) : Promise<string> {
+  public getOndeFicaOfertaPorId(id: number): Promise<string> {
     return this.http.get<string>(`${URL_API}/onde-fica?id_ondefica=${id}`)
-    .toPromise()
-    .then(( ondeFica => {
-      // console.log(comoUsar[0].descricao)
-      return ondeFica
-    }))
+      .toPromise()
+      .then((ondeFica => {
+        // console.log(comoUsar[0].descricao)
+        return ondeFica
+      }))
   }
 
   //Quando coloco _like ele reconhece que estou fazendo uma pesquisa
@@ -84,7 +84,7 @@ export class OfertasService {
   //O Retry é utilizando para em casos de erros de conexão
   //Ele é testado durante várias vezes, igual eu defino no seu parâmetro
   //Ele tenta as 10 tentativas na requisição no caso.
-  public pesquisaOfertas(termo: string) : Observable<Oferta[]> {
+  public pesquisaOfertas(termo: string): Observable<Oferta[]> {
     //Retornando os dados da requisição http
     return this.http.get(`${URL_API}/ofertas?descricao_oferta_like=${termo}`)
       .pipe(retry(10), (map((resposta: any) => resposta)))

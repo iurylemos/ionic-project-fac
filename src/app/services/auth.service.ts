@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../interfaces/user';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { HomePage } from '../pages/home/home.page';
 import { Subscription } from 'rxjs';
+import { AccountPage } from '../pages/account/account.page';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private user: HomePage
+  private user: AccountPage
   private userSubscription: Subscription
 
   constructor(

@@ -7,6 +7,7 @@ import { OfertasService } from 'src/app/services/ofertas.service';
 import { CarrinhoService } from 'src/app/services/carrinho.service';
 import { Oferta } from 'src/app/shared/oferta.model';
 import { ItemCarrinho } from 'src/app/shared/item-carrinho.model';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-oferta',
@@ -22,14 +23,16 @@ export class OfertaPage implements OnInit {
    private route: ActivatedRoute, 
    private ofertasService: OfertasService,
    private carrinhoService: CarrinhoService,
-   private router: Router
+   private router: Router,
+   private _paramService : ParamsService
   ) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((parametros: Params) => {
-      console.log(parametros)
+    let params = this._paramService.getParams()
+    // this.route.queryParams.subscribe((parametros: Params) => {
+      console.log(params)
       //Sempre que houver alguma alteração vou recuperar o método
-      this.ofertasService.getOfertaPorId(parametros.offerId)
+      this.ofertasService.getOfertaPorId(params)
       .then((oferta: Oferta) => {
         //Ação que eu vou tomar quando a promessa estiver resolvida
         console.log(oferta)
@@ -37,7 +40,7 @@ export class OfertaPage implements OnInit {
         //Verificando o que tem dentro do objeto
         // console.log(' OFERTA OFERTA' ,this.oferta)
       })
-    })
+    // })
 
   }
 
@@ -49,7 +52,7 @@ export class OfertaPage implements OnInit {
     console.log(this.carrinhoService.exibirItens())
     this.itens = this.carrinhoService.exibirItens()
 
-    this.router.navigate(['carrinho'], { queryParams: { offerId: this.itens }, skipLocationChange: true })
+    // this.router.navigate(['carrinho'], { queryParams: { offerId: this.itens }, skipLocationChange: true })
   }
 
 }

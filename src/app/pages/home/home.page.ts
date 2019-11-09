@@ -1,122 +1,61 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/interfaces/product';
-import { Subscription } from 'rxjs';
-import { ProductService } from 'src/app/services/product.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { Oferta } from '../../shared/Oferta.model';
+import { Cliente } from '../../shared/cliente.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OfertasService } from 'src/app/services/ofertas.service';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
+  providers: [OfertasService]
 })
 export class HomePage implements OnInit {
 
-  private products = new Array<Product>();
-  private productsSubscription: Subscription;
-  private loading: any;
-  public user: any = {};
+  //Atributo oferta
+  public ofertas: Oferta[]
+  currentUser: Cliente;
+  returnUrl: number;
 
   constructor(
-    private productsService: ProductService,
-    private authService: AuthService,
-    private loadingController: LoadingController,
-    private toastController: ToastController,
-    private alertController: AlertController
-    ) {
-    this.productsSubscription = this.productsService.getProducts().subscribe(data => {
-      this.products = data;
-      console.log(this.products)
-    });
-   }
+    private ofertasService: OfertasService,
+    private _router: Router,
+    private _paramService : ParamsService
+  ) { }
 
   ngOnInit() {
+    this.ofertasService.getOfertas()
+      .then(( ofertas: Oferta[] ) => {
+        console.log('A função resolve() foi resolvida depois de 3 segundos')
+        console.log('COMPONENTE HOME', ofertas)
+        //Resolve da promisse
+        this.ofertas = ofertas
+
+      })
+      .catch((param: any) => {
+        //Reject da promisse
+        console.log(param)
+      })
   }
 
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    this.productsSubscription.unsubscribe();
-  }
+  passandoDados(event) {
+    console.log(event)
+    this.returnUrl = event
+    console.log(this.returnUrl)
+    // const filter = this.returnUrl.filter(data => data.offerId < 3)
 
-  //Método que copiei da documentação: https://ionicframework.com/docs/api/loading
-  async presentLoading() {
-    this.loading = await this.loadingController.create({
-      message: 'Por favor, aguarde...'
-    });
-    return this.loading.present();
-  }
+    // console.log(filter)
 
-  async presentToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 5000
-    });
-    toast.present();
-  }
 
-  public async logout() {
-    try {
-      await this.authService.logout()
-    }catch(error) {
-      console.error(error)
+    if(this.returnUrl < 3) {
+      this._paramService.setParams(this.returnUrl)
+      this._router.navigate(['/tabs/restaurantes/oferta'])
+    }else {
+      this._paramService.setParams(this.returnUrl)
+      this._router.navigate(['/tabs/diversao/oferta'])
     }
+    
   }
 
-  public async deleteProduct(id: string) {
-    try {
-      await this.productsService.deleteProduct(id)
-    } catch (error) {
-      this.presentToast('Erro ao tentar salvar');
-    }
-  }
-
-  public async showAlert(product: any = {}) {
-
-    if(!this.user.isAdmin) {
-      return;
-    }
-
-    const alert = await this.alertController.create({
-      header: product.id ? 'Atualizar produto' : 'Criar produto',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          placeholder: 'Name',
-          value: product.name
-        },
-        {
-          name: 'price',
-          type: 'number',
-          placeholder: 'Price',
-          value: product.price
-        },
-        {
-          name: 'picture',
-          type: 'url',
-          placeholder: 'Picture',
-          value: product.picture
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary'
-        }, 
-        {
-          text: 'OK',
-          handler: data => {
-            if(product.id) {
-              this.productsService.updateProduct(product.id, data);
-            }else {
-              this.productsService.addProduct(data);
-            }
-          }
-        }
-      ]
-    });
-    await alert.present()
-  }
 }

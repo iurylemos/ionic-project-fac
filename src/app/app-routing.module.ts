@@ -21,6 +21,7 @@ const routes: Routes = [
   //   // ]
   // },
   { path: 'carrinho', loadChildren: './pages/ordem-compra/ordem-compra.module#OrdemCompraPageModule', canActivate: [AuthGuard] },
+  { path: 'account', loadChildren: './pages/account/account.module#AccountPageModule' },
   
 ];
 
