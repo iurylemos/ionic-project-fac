@@ -1,6 +1,18 @@
-<ion-header>
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>diversao</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="logo-ionic"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Bebidas</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button (click)="visualizarCarrinho()">
+        <ion-icon name="cart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -8,8 +20,8 @@
   <div class="container">
 
     <div class="secao">
-      <h3 class="text-center">Cinema, viagens, diversão muito e mais!</h3>
-      <h5 class="text-center">Conheça as melhores ofertas para você se divertir quando quiser:</h5>
+      <h3 class="text-center">Bebidas e muito mais!</h3>
+      <h5 class="text-center">Conheça as melhores ofertas para você se divertir:</h5>
     </div>
 
     <hr />
@@ -28,9 +40,9 @@
             <h5>{{ oferta.descricao_titulo }}</h5>
           </div>
 
-          <div class="row">
+          <!-- <div class="row">
             <p>Anunciado por: <b>{{ oferta.anunciante }}</b></p>
-          </div>
+          </div> -->
 
           <div class="row">
             <p>{{ oferta.valor | currency:'BRL' }}</p>

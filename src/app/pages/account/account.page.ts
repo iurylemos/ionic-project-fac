@@ -28,6 +28,7 @@ export class AccountPage implements OnInit {
       this.products = data;
       console.log(this.products)
     });
+    console.log(this.user)
    }
 
   ngOnInit() {

@@ -20,7 +20,7 @@ export class DiversaoPage implements OnInit {
     private _paramService : ParamsService) { }
 
   ngOnInit() {
-    this.ofertasService.getOfertasPorCategoria('diversao')
+    this.ofertasService.getOfertasPorCategoria('bebidas')
     .then((ofertas: Oferta[] ) => {
       this.ofertas = ofertas
       console.log('COMPONENTE DIVERSÃO', ofertas)
@@ -31,6 +31,10 @@ export class DiversaoPage implements OnInit {
     console.log(event)
     this._paramService.setParams(event)
     this._router.navigate(['/tabs/diversao/oferta'])
+  }
+
+  visualizarCarrinho() {
+    this._router.navigate(['/tabs/carrinho'])
   }
 
 }

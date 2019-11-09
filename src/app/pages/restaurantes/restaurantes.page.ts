@@ -21,7 +21,7 @@ export class RestaurantesPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.ofertasService.getOfertasPorCategoria('restaurante')
+    this.ofertasService.getOfertasPorCategoria('mercearia')
     //Then para a resposta, passando o arrowfunction
     //Que é ação que eu vou tomar, quando a resposta estiver pronta
       .then(( ofertas: Oferta[] ) => {
@@ -34,5 +34,9 @@ export class RestaurantesPage implements OnInit {
     console.log(event)
     this._paramService.setParams(event)
     this._router.navigate(['/tabs/restaurantes/oferta'])
+  }
+
+  visualizarCarrinho() {
+    this._router.navigate(['/tabs/carrinho'])
   }
 }

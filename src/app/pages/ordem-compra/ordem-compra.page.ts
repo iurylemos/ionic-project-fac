@@ -32,6 +32,7 @@ export class OrdemCompraPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('entrou no carrinho')
     this.itensCarrinho = this.carrinhoService.exibirItens()
     console.log(this.itensCarrinho)
   }

@@ -29,9 +29,9 @@
       <ion-card-subtitle>{{ oferta.descricao_oferta }}</ion-card-subtitle>
       <ion-card-title>{{ oferta.titulo }}</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content style="font-size: 23px;">
       {{ oferta.valor | currency:'BRL' }}
-      <a (click)="passandoDados(oferta.id_oferta)" class="btn btn-outline-primary">Ver oferta</a>
+      <a style="float: right;" (click)="passandoDados(oferta.id_oferta)" class="btn btn-outline-primary">Ver oferta</a>
     </ion-card-content>
   </ion-card>
 

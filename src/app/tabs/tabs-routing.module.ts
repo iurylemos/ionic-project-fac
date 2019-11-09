@@ -76,6 +76,17 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'carrinho',
+        canActivate: [AuthGuard] ,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/ordem-compra/ordem-compra.module').then(m => m.OrdemCompraPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'
