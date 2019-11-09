@@ -13,6 +13,7 @@ import { ParamsService } from 'src/app/services/params.service';
 })
 export class RestaurantesPage implements OnInit {
   public ofertas : Oferta[]
+  filterCategory: string
 
   constructor(
     private ofertasService: OfertasService,
@@ -38,5 +39,18 @@ export class RestaurantesPage implements OnInit {
 
   visualizarCarrinho() {
     this._router.navigate(['/tabs/carrinho'])
+  }
+
+  open(event) {
+    console.log(event)
+    this.filterCategory = event.detail.value
+    console.log(this.filterCategory)
+    this.ofertasService.getOfertasPorCategoria(this.filterCategory)
+    //Then para a resposta, passando o arrowfunction
+    //Que é ação que eu vou tomar, quando a resposta estiver pronta
+      .then(( ofertas: Oferta[] ) => {
+        this.ofertas = ofertas
+        console.log('COMPONENTE RESTAURANTES',ofertas[0])
+      })
   }
 }

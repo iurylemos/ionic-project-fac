@@ -16,8 +16,19 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- FILTRO DE CATEGORIAS -->
+
 <ion-content>
-  <div class="container">
+  <ion-item>
+    <ion-label>Categorias</ion-label>
+    <ion-select (ionChange)="open($event)">
+      <ion-select-option value="higiene">Higiene</ion-select-option>
+      <ion-select-option value="hortifruti">Hortifruti</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+  <div class="container" style="margin-top: 15px;">
 
     <div class="secao">
       <h3 class="text-center">Alimentos, Cereais e mais!</h3>
