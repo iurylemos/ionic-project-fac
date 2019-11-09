@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { OfertaPage } from './oferta.page';
+import { OfertasService } from 'src/app/services/ofertas.service';
+import { CarrinhoService } from 'src/app/services/carrinho.service';
 
 const routes: Routes = [
   {
@@ -21,6 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [OfertaPage]
+  declarations: [OfertaPage],
+  providers: [ OfertasService, CarrinhoService ]
 })
 export class OfertaPageModule {}

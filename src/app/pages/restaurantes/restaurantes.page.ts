@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 // import { Oferta } from '../shared/Oferta.model';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { Oferta } from 'src/app/shared/oferta.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-restaurantes',
@@ -12,7 +13,10 @@ import { Oferta } from 'src/app/shared/oferta.model';
 export class RestaurantesPage implements OnInit {
   public ofertas : Oferta[]
 
-  constructor(private ofertasService: OfertasService) { }
+  constructor(
+    private ofertasService: OfertasService,
+    private _router: Router
+    ) { }
 
   ngOnInit() {
     this.ofertasService.getOfertasPorCategoria('restaurante')
@@ -24,4 +28,8 @@ export class RestaurantesPage implements OnInit {
       })
   }
 
+  passandoDados(event) {
+    console.log(event)
+    this._router.navigate(['/tabs/restaurantes/oferta'], { queryParams: { offerId: event }, skipLocationChange: true })
+  }
 }

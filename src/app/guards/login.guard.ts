@@ -16,7 +16,7 @@ export class LoginGuard implements CanActivate {
     return new Promise(resolve => {
       this.authService.getAuth().onAuthStateChanged(user => {
         //Se o usuário não estiver logado
-        if(user) this.router.navigate(['home']);
+        if(user) this.router.navigate(['tabs']);
         //Se tiver user é true, se não tiver é false
         //Retorno da promisse, se existir usuário retorno true, se não false
         resolve(!user ? true : false)

@@ -53,7 +53,7 @@ export class OfertasService {
     return this.http.get<Oferta[]>(`${URL_API}/ofertas?id_oferta=${id}`)
     .toPromise()
     .then(( o => {
-      // console.log(o.shift())
+      console.log(o)
       return o.shift();
     }))
   }

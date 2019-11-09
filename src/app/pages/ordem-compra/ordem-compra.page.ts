@@ -32,7 +32,10 @@ export class OrdemCompraPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.carrinhoService.totalCarrinhoCompras())
+    console.log(this.carrinhoService)
     this.itensCarrinho = this.carrinhoService.exibirItens()
+    console.log(this.itensCarrinho)
   }
 
   public confirmarCompra(): void {

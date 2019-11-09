@@ -13,6 +13,9 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { TabsPageRoutingModule } from './tabs/tabs-routing.module';
+import { TabsPageModule } from './tabs/tabs.module';
+import { HttpClientModule } from '@angular/common/http'; 
 
 
 @NgModule({
@@ -22,9 +25,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
+    TabsPageRoutingModule,
+    TabsPageModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
