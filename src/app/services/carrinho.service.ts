@@ -17,7 +17,7 @@ export class CarrinhoService {
   //Ele recebe uma oferta do objeto tipo Oferta
   
   public incluirItem(oferta: Oferta) : void {
-    // console.log('Recebendo oferta no carrinho: ' , oferta)
+    console.log('Recebendo oferta no carrinho: ' , oferta)
     //Aqui no incluir item nós podemos criar uma instância de itemCarrinho
     //E popular os dados do itemCarrinho e popular ela com os dados da ferta
     //No array, eu pego a primeira imagem
@@ -63,7 +63,7 @@ export class CarrinhoService {
     if(itemCarrinhoEncontrado) {
       itemCarrinhoEncontrado.quantidade += 1
     }else {
-      this.itens.push(itemCarrinho)
+      this.itens.unshift(itemCarrinho)
     }
   }
 

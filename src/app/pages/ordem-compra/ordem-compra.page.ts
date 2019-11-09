@@ -12,7 +12,7 @@ import { Pedido } from 'src/app/shared/pedido.model';
 @Component({
   selector: 'app-ordem-compra',
   templateUrl: './ordem-compra.page.html',
-  styleUrls: ['./ordem-compra.page.scss'],
+  styleUrls: ['./ordem-compra.page.scss']
 })
 export class OrdemCompraPage implements OnInit {
 
@@ -32,8 +32,6 @@ export class OrdemCompraPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.carrinhoService.totalCarrinhoCompras())
-    console.log(this.carrinhoService)
     this.itensCarrinho = this.carrinhoService.exibirItens()
     console.log(this.itensCarrinho)
   }

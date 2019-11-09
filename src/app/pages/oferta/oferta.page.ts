@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { CarrinhoService } from 'src/app/services/carrinho.service';
 import { Oferta } from 'src/app/shared/oferta.model';
+import { ItemCarrinho } from 'src/app/shared/item-carrinho.model';
 
 @Component({
   selector: 'app-oferta',
@@ -15,6 +16,7 @@ import { Oferta } from 'src/app/shared/oferta.model';
 export class OfertaPage implements OnInit {
 
   public oferta: Oferta
+  public itens: ItemCarrinho[] = []
 
   constructor(
    private route: ActivatedRoute, 
@@ -45,7 +47,9 @@ export class OfertaPage implements OnInit {
     //Vou pegar esse objeto e passar para o carrinhoService como sendo um item do pedido
     this.carrinhoService.incluirItem(this.oferta)
     console.log(this.carrinhoService.exibirItens())
-    // this.router.navigate(['carrinho'])
+    this.itens = this.carrinhoService.exibirItens()
+
+    this.router.navigate(['carrinho'], { queryParams: { offerId: this.itens }, skipLocationChange: true })
   }
 
 }

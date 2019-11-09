@@ -43,7 +43,20 @@ const routes: Routes = [
           },
           {
             path: 'oferta',
-            loadChildren: () => import('../pages/oferta/oferta.module').then(m => m.OfertaPageModule)
+            loadChildren: () => import('../pages/oferta/oferta.module').then(m => m.OfertaPageModule),
+            // children: [
+            //   {
+            //     path: 'como-usar',
+            //     loadChildren: () =>
+            //     import('../pages/oferta/como-usar/como-usar.module').then(m => m.ComoUsarPageModule)
+            //   },
+              // {
+              //   path: 'onde-fica',
+              //   loadChildren: () =>
+              //   import('../pages/oferta/onde-fica/onde-fica.module').then(m => m.OndeFicaPageModule)
+              // }
+            // ]
+            
           }
         ]
       },

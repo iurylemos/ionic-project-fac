@@ -24,6 +24,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [OfertaPage],
-  providers: [ OfertasService, CarrinhoService ]
+  providers: [ OfertasService ]
 })
 export class OfertaPageModule {}

@@ -16,6 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { TabsPageRoutingModule } from './tabs/tabs-routing.module';
 import { TabsPageModule } from './tabs/tabs.module';
 import { HttpClientModule } from '@angular/common/http'; 
+import { CarrinhoService } from './services/carrinho.service';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
+    CarrinhoService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

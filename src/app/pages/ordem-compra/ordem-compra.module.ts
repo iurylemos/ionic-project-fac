@@ -28,6 +28,6 @@ const routes: Routes = [
     ReactiveFormsModule
   ],
   declarations: [OrdemCompraPage],
-  providers: [OrdemCompraService, CarrinhoService ]
+  providers: [OrdemCompraService]
 })
 export class OrdemCompraPageModule {}
