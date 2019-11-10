@@ -87,6 +87,17 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'compra-realizada',
+        canActivate: [AuthGuard] ,
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../pages/ordem-compra-sucesso/ordem-compra-sucesso.module').then(m => m.OrdemCompraSucessoPageModule)
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

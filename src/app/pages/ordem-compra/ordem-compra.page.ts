@@ -8,6 +8,7 @@ import { ItemCarrinho } from 'src/app/shared/item-carrinho.model';
 import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { CarrinhoService } from 'src/app/services/carrinho.service';
 import { Pedido } from 'src/app/shared/pedido.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ordem-compra',
@@ -16,7 +17,7 @@ import { Pedido } from 'src/app/shared/pedido.model';
 })
 export class OrdemCompraPage implements OnInit {
 
-  public idPedidoCompra: number
+  public idPedidoCompra: number = undefined
   public itensCarrinho: ItemCarrinho[] = []
 
   public formulario: FormGroup = new FormGroup({
@@ -28,7 +29,8 @@ export class OrdemCompraPage implements OnInit {
 
   constructor(
     private ordemCompraService: OrdemCompraService,
-    public carrinhoService: CarrinhoService
+    public carrinhoService: CarrinhoService,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -89,6 +91,7 @@ export class OrdemCompraPage implements OnInit {
         this.ordemCompraService.efetivarCompra(pedido)
         .subscribe((idPedido: number) => {
           this.idPedidoCompra = idPedido
+          this._router.navigate(['/tabs/compra-realizada'], { queryParams: { idPedido } })
           // console.log('Imprimindo o id do pedido' +this.idPedidoCompra)
           //Além de recuperar o id do pedido
           //executar a limpeza
