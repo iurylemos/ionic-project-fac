@@ -58,8 +58,8 @@
           </ion-button>
         </ion-col>
 
-        <ion-col size="6">
-          <ion-button [disabled]="!user.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
+        <ion-col size="6" *ngFor="let item of dadosUser">
+          <ion-button [disabled]="!item.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
             Add produto
           </ion-button>
         </ion-col>

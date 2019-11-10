@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../interfaces/user';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { AccountPage } from '../pages/account/account.page';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,19 @@ export class AuthService {
 
   private user: AccountPage
   private userSubscription: Subscription
+  private userCollection : AngularFirestoreCollection<User>;
 
   constructor(
     private fireAuth: AngularFireAuth,
-    private fireBase: AngularFirestore
-  ) { }
+    private fireBase: AngularFirestore,
+  ) { 
+    this.userCollection = this.fireBase.collection<User>('Users')
+  }
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    if (this.userSubscription) this.userSubscription.unsubscribe();
+    // if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 
   public async login(user: User) {
@@ -38,7 +42,8 @@ export class AuthService {
     console.log(user)
     try {
       await this.fireAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-      await this.fireBase.collection('Users').add(user)
+      // await this.fireBase.collection('Users').add(user)
+      await this.userCollection.add(user)
     } catch (error) {
       
     }
@@ -58,5 +63,19 @@ export class AuthService {
   public getAuth() {
     //Esse daqui é o objeto de autenticação do usuário
     return this.fireAuth.auth;
+  }
+
+  public getUsers() {
+      return this.userCollection.snapshotChanges().pipe(
+        //Pipe para pecorrer as informações do snapshot
+        map(actions => {
+          return actions.map( a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+  
+            return { id, ...data };
+          });
+        })
+      );
   }
 }

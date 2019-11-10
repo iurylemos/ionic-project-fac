@@ -5,6 +5,7 @@ import { OfertasService } from 'src/app/services/ofertas.service';
 import { Oferta } from 'src/app/shared/oferta.model';
 import { Router } from '@angular/router';
 import { ParamsService } from 'src/app/services/params.service';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-restaurantes',
@@ -13,12 +14,15 @@ import { ParamsService } from 'src/app/services/params.service';
 })
 export class RestaurantesPage implements OnInit {
   public ofertas : Oferta[]
-  filterCategory: string
+  public filterCategory: string
+  public loading : any
 
   constructor(
     private ofertasService: OfertasService,
     private _router: Router,
-    private _paramService : ParamsService
+    private toastController: ToastController,
+    private _paramService : ParamsService,
+    private loadingController: LoadingController,
     ) { }
 
   ngOnInit() {
@@ -37,19 +41,37 @@ export class RestaurantesPage implements OnInit {
     this._router.navigate(['/tabs/restaurantes/oferta'])
   }
 
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Por favor, aguarde...'
+    });
+    return this.loading.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 5000
+    });
+    toast.present();
+  }
+
   visualizarCarrinho() {
     this._router.navigate(['/tabs/carrinho'])
   }
 
-  open(event) {
-    console.log(event)
+  async open(event) {
+    // console.log(event)
     this.filterCategory = event.detail.value
-    console.log(this.filterCategory)
+    // console.log(this.filterCategory)
+    await this.presentLoading()
+    
     this.ofertasService.getOfertasPorCategoria(this.filterCategory)
     //Then para a resposta, passando o arrowfunction
     //Que é ação que eu vou tomar, quando a resposta estiver pronta
       .then(( ofertas: Oferta[] ) => {
         this.ofertas = ofertas
+        this.loading.dismiss();
         console.log('COMPONENTE RESTAURANTES',ofertas[0])
       })
   }

@@ -4,6 +4,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { Product } from 'src/app/interfaces/product';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/interfaces/user';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-account',
@@ -16,20 +18,31 @@ export class AccountPage implements OnInit {
   private productsSubscription: Subscription;
   private loading: any;
   public user: any = {};
+  public dadosUser = new Array<User>();
+  public userFB : User
 
   constructor(
     private productsService: ProductService,
     private authService: AuthService,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private fireAuth: AngularFireAuth
     ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       this.products = data;
       console.log(this.products)
     });
-    console.log(this.user)
+    this.dataUser()
    }
+
+  dataUser() {
+    this.authService.getUsers().subscribe(data => {
+      this.dadosUser = data;
+      this.dadosUser = this.dadosUser.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
+      console.log('DADOS DO USUÁRIO: ',this.dadosUser)
+    })
+  }
 
   ngOnInit() {
   }
