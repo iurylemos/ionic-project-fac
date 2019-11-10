@@ -78,6 +78,7 @@ export class LoginPage implements OnInit {
   async register() {
     // console.log(this.userRegister)
     await this.presentLoading()
+    this.userRegister.isAdmin = false
     //Antes era assim, mas com o ECMA ficou mais fácil com async await
     // await this.authService.register(this.userRegister).then(res => {
     // }).catch(err => {

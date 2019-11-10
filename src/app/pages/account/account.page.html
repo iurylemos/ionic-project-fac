@@ -5,39 +5,6 @@
 </ion-header>
 
 <ion-content>
-
-  <!-- SEPARATOR -->
-  <form [formGroup]="formulario" (ngSubmit)="cadastrarProduto()" novalidate>
-    <ion-list lines="full" class="ion-no-margin ion-no-padding">
-      <ion-item>
-        <ion-label position="stacked">ID_OFERTA <ion-text color="danger">*</ion-text>
-        </ion-label>
-        <ion-input required type="text" formControlName="id_oferta"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Categoria <ion-text color="danger">*</ion-text>
-        </ion-label>
-        <ion-input required type="text" formControlName="categoria"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Produto:</ion-label>
-        <ion-input formControlName="titulo" placeholder="Titulo"></ion-input>
-        <ion-input formControlName="descricao_oferta" placeholder="descricao_oferta"></ion-input>
-        <ion-input formControlName="anunciante" placeholder="anunciante"></ion-input>
-        <ion-input formControlName="valor" placeholder="valor"></ion-input>
-        <ion-input formControlName="destaque" placeholder="destaque"></ion-input>
-        <ion-input formControlName="imagem1" placeholder="caminho das imagem 01:"></ion-input>
-        <ion-input formControlName="imagem2" placeholder="caminho das imagem 02:"></ion-input>
-      </ion-item>
-    </ion-list>
-
-    <div class="ion-padding">
-      <ion-button expand="block" type="submit" class="ion-no-margin">Criar produto</ion-button>
-    </div>
-  </form>
-
   <!-- SEPARATOR -->
   <ion-list *ngIf="!products.length">
     <ion-item *ngFor="let item of [0, 1, 2]">
@@ -82,6 +49,7 @@
     </ion-item-sliding>
   </ion-list>
 </ion-content>
+
 <ion-footer>
   <ion-toolbar>
     <ion-grid>

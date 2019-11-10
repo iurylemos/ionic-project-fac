@@ -24,26 +24,13 @@ export class AccountPage implements OnInit {
   public user: any = {};
   public dadosUser = new Array<User>();
 
-  public formulario: FormGroup = new FormGroup({
-    'id_oferta': new FormControl(null, [Validators.required]),
-    'categoria': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
-    'titulo': new FormControl(null),
-    'descricao_oferta': new FormControl(null, [Validators.required]),
-    'anunciante': new FormControl(null, [Validators.required]),
-    'valor': new FormControl(null, [Validators.required]),
-    'destaque': new FormControl(null, [Validators.required]),
-    'imagem1': new FormControl(null, [Validators.required]),
-    'imagem2': new FormControl(null, [Validators.required]),
-  })
-
   constructor(
     private productsService: ProductService,
     private authService: AuthService,
     private loadingController: LoadingController,
     private toastController: ToastController,
     private alertController: AlertController,
-    private fireAuth: AngularFireAuth,
-    private ordemCompraService: OrdemCompraService,
+    private fireAuth: AngularFireAuth
   ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       this.products = data;
@@ -148,45 +135,5 @@ export class AccountPage implements OnInit {
       ]
     });
     await alert.present()
-  }
-
-  cadastrarProduto() {
-    console.log(this.formulario)
-    if (this.formulario.status === "INVALID") {
-      console.log('Formulário está inválido')
-      this.formulario.get('id_oferta').markAsTouched()
-      this.formulario.get('categoria').markAsTouched()
-      this.formulario.get('titulo').markAsTouched()
-      this.formulario.get('descricao_oferta').markAsTouched()
-      this.formulario.get('anunciante').markAsTouched()
-      this.formulario.get('valor').markAsTouched()
-      this.formulario.get('destaque').markAsTouched()
-      this.formulario.get('imagens').markAsTouched()
-    } else {
-
-      var data = [{
-        "url": this.formulario.value.imagem1
-      },
-      {
-        "url": this.formulario.value.imagem2
-      }
-      ];
-
-      console.log('entrou no else')
-      let oferta: Produto = new Produto(
-        this.formulario.value.id_oferta,
-        this.formulario.value.categoria,
-        this.formulario.value.titulo,
-        this.formulario.value.descricao_oferta,
-        this.formulario.value.anunciante,
-        this.formulario.value.valor,
-        this.formulario.value.destaque,
-        data,
-      )
-
-      this.ordemCompraService.cadastrarProduto(oferta).subscribe((data) => {
-        console.log(data)
-      })
-    }
   }
 }

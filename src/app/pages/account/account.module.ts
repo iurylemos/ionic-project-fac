@@ -6,7 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { AccountPage } from './account.page';
-import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 
 const routes: Routes = [
   {
@@ -23,7 +22,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule
   ],
-  declarations: [AccountPage],
-  providers: [OrdemCompraService]
+  declarations: [AccountPage]
 })
 export class AccountPageModule {}
