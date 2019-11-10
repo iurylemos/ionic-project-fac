@@ -24,14 +24,17 @@
 
 <ion-content>
   <ion-card *ngFor="let oferta of ofertas">
-    <img [src]="oferta.imagens[0].url" />
+    <img style="display: flex; width: 70%; margin: 0 auto; position: relative;" [src]="oferta.imagens[0].url" />
     <ion-card-header>
       <ion-card-subtitle>{{ oferta.descricao_oferta }}</ion-card-subtitle>
       <ion-card-title>{{ oferta.titulo }}</ion-card-title>
     </ion-card-header>
     <ion-card-content style="font-size: 23px;">
       {{ oferta.valor | currency:'BRL' }}
-      <a style="float: right;" (click)="passandoDados(oferta.id_oferta)" class="btn btn-outline-primary">Ver oferta</a>
+      <ion-button color="primary" style="float: right;" (click)="passandoDados(oferta.id_oferta)"
+        class="btn btn-outline-primary">Ver
+        oferta</ion-button>
+      <ion-badge color="danger" slot="end">Promoção</ion-badge>
     </ion-card-content>
   </ion-card>
 

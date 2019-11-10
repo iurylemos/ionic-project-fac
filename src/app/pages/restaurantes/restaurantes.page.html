@@ -24,11 +24,26 @@
     <ion-select (ionChange)="open($event)">
       <ion-select-option value="higiene">Higiene</ion-select-option>
       <ion-select-option value="hortifruti">Hortifruti</ion-select-option>
+      <ion-select-option value="mercearia">Alimentos</ion-select-option>
     </ion-select>
   </ion-item>
 
+  <hr />
 
-  <div class="container" style="margin-top: 15px;">
+  <ion-card *ngFor="let oferta of ofertas">
+    <img [src]="oferta.imagens[0].url" />
+    <ion-card-header>
+      <ion-card-subtitle>{{ oferta.descricao_oferta }}</ion-card-subtitle>
+      <ion-card-title>{{ oferta.titulo }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-note>{{ oferta.valor | currency:'BRL' }}</ion-note>
+      <ion-button (click)="passandoDados(oferta.id_oferta)" size="larger">Ver oferta</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- <div class="container" style="margin-top: 15px;">
 
     <div class="secao">
       <h3 class="text-center">Alimentos, Cereais e mais!</h3>
@@ -51,9 +66,9 @@
             <h5>{{ oferta.descricao_oferta }}</h5>
           </div>
 
-          <!-- <div class="row">
+          <div class="row">
             <p>Anunciado por: <b>{{ oferta.anunciante }}</b></p>
-          </div> -->
+          </div> 
 
           <div class="row">
             <p>{{ oferta.valor | currency:'BRL' }}</p>
@@ -67,7 +82,7 @@
 
       <hr />
     </div>
-  </div>
+  </div> -->
 
 
 </ion-content>

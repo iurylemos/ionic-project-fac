@@ -8,6 +8,7 @@ import { CarrinhoService } from 'src/app/services/carrinho.service';
 import { Oferta } from 'src/app/shared/oferta.model';
 import { ItemCarrinho } from 'src/app/shared/item-carrinho.model';
 import { ParamsService } from 'src/app/services/params.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-oferta',
@@ -24,7 +25,8 @@ export class OfertaPage implements OnInit {
    private ofertasService: OfertasService,
    private carrinhoService: CarrinhoService,
    private router: Router,
-   private _paramService : ParamsService
+   private _paramService : ParamsService,
+   private toastController: ToastController,
   ) { }
 
   ngOnInit() {
@@ -49,10 +51,18 @@ export class OfertaPage implements OnInit {
     // console.log(this.oferta)
     //Vou pegar esse objeto e passar para o carrinhoService como sendo um item do pedido
     this.carrinhoService.incluirItem(this.oferta)
-    console.log(this.carrinhoService.exibirItens())
     this.itens = this.carrinhoService.exibirItens()
+    this.presentToast("Foi adicionado um item ao seu carrinho")
 
     // this.router.navigate(['carrinho'], { queryParams: { offerId: this.itens }, skipLocationChange: true })
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 5000
+    });
+    toast.present();
   }
 
 }
