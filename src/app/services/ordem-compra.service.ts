@@ -1,10 +1,12 @@
 // import { Pedido } from './shared/pedido.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { URL_API } from '../app.api';
 import { map } from 'rxjs/operators';
 import { Pedido } from '../shared/pedido.model';
+import { Oferta } from '../shared/Oferta.model';
+import { Produto } from '../shared/produto.model';
 
 //Agora está apto a receber serviços externos
 @Injectable()
@@ -27,6 +29,15 @@ export class OrdemCompraService {
     //Mais especificamente os headers da minha requisição
 
     return this.http.post(`${URL_API}/pedidos`,pedido).pipe( 
+      map((resposta: any) => resposta) 
+    );
+  }
+
+  public cadastrarProduto(oferta: Produto) : Observable<any> {
+    console.log(oferta)
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});  
+
+    return this.http.post(`${URL_API}/ofertas`, oferta, { headers: headers} ).pipe( 
       map((resposta: any) => resposta) 
     );
   }

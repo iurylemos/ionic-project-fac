@@ -72,7 +72,6 @@ export class RestaurantesPage implements OnInit {
       .then(( ofertas: Oferta[] ) => {
         this.ofertas = ofertas
         this.loading.dismiss();
-        console.log('COMPONENTE RESTAURANTES',ofertas[0])
       })
   }
 }
