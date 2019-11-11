@@ -17,6 +17,8 @@ export class HomePage implements OnInit {
   public ofertas: Oferta[]
   currentUser: Cliente;
   returnUrl: number;
+  categoriasMercearia: Array<any> = ["mercearia", "hortifruti", "higiene"]
+  categoriasBebidas: Array<any> = ["vinho", "refrigerante", "whisky", "vodka"]
 
   constructor(
     private ofertasService: OfertasService,
@@ -41,14 +43,12 @@ export class HomePage implements OnInit {
 
   passandoDados(event) {
     console.log(event)
-    this.returnUrl = event
-    console.log(this.returnUrl)
-    // const filter = this.returnUrl.filter(data => data.offerId < 3)
+    this.returnUrl = event.id_oferta
+    const filterCategoriaMercearia = this.categoriasMercearia.filter(data => data === event.categoria)
 
-    // console.log(filter)
+    console.log(filterCategoriaMercearia)
 
-
-    if(this.returnUrl < 3) {
+    if(filterCategoriaMercearia.length > 0) {
       this._paramService.setParams(this.returnUrl)
       this._router.navigate(['/tabs/restaurantes/oferta'])
     }else {

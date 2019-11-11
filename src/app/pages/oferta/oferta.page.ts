@@ -40,7 +40,7 @@ export class OfertaPage implements OnInit {
         console.log(oferta)
         this.oferta = oferta
         //Verificando o que tem dentro do objeto
-        // console.log(' OFERTA OFERTA' ,this.oferta)
+        console.log(' OFERTA OFERTA' ,this.oferta)
       })
     // })
 

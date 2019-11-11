@@ -28,10 +28,8 @@
     </ion-select>
   </ion-item>
 
-  <hr />
-
   <ion-card *ngFor="let oferta of ofertas">
-    <img [src]="oferta.imagens[0].url" />
+    <img style="width: 70%; margin: 0 auto;" [src]="oferta.imagens[0].url" />
     <ion-card-header>
       <ion-card-subtitle>{{ oferta.descricao_oferta }}</ion-card-subtitle>
       <ion-card-title>{{ oferta.titulo }}</ion-card-title>

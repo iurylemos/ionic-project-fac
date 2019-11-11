@@ -31,8 +31,8 @@
     </ion-card-header>
     <ion-card-content style="font-size: 23px;">
       {{ oferta.valor | currency:'BRL' }}
-      <ion-button color="primary" style="float: right;" (click)="passandoDados(oferta.id_oferta)"
-        class="btn btn-outline-primary">Ver
+      <ion-button color="primary" style="float: right;" (click)="passandoDados(oferta)" class="btn btn-outline-primary">
+        Ver
         oferta</ion-button>
       <ion-badge color="danger" slot="end">Promoção</ion-badge>
     </ion-card-content>

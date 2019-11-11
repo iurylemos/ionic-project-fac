@@ -19,7 +19,10 @@ export class ComoUsarPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.parent.params.subscribe((parametros: Params) => {
+    console.log('Entrou aqui')
+    console.log(this.route)
+
+    this.route.queryParams.subscribe((parametros: Params) => {
       this.ofertasService.getComoUsarOfertaPorId(parametros.id)
       .then((resposta: any) => {
         console.log('COMPONENTE COMO USAR',resposta[0].descricao)
