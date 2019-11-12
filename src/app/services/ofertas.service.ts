@@ -90,4 +90,9 @@ export class OfertasService {
       .pipe(retry(10), (map((resposta: any) => resposta)))
   }
 
+  public todasOfertas() : Observable<any> {
+    return this.http.get(`${URL_API}/ofertas`)
+    .pipe(retry(10), (map((resposta: any) => resposta)))
+  }
+
 }

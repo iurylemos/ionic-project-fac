@@ -4,7 +4,15 @@ img {
   height: 200px
 }
 
-.container {
-  padding-left: 25px;
-  padding-right: 25px;
+ion-button {
+    float: right;
+    margin: -15px auto;
+}
+
+ion-card { 
+  border: solid;
+  padding: 5px;
+  margin: 0 auto;
+  width: 90%;
+  margin-top: 10px;
 }

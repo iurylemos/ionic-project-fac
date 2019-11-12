@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Oferta } from 'src/app/shared/Oferta.model';
 import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { Produto } from 'src/app/shared/produto.model';
+import { OfertasService } from 'src/app/services/ofertas.service';
 
 @Component({
   selector: 'app-account',
@@ -20,12 +21,14 @@ export class AccountPage implements OnInit {
 
   private products = new Array<Product>();
   private productsSubscription: Subscription;
+  private produtosSubscription: any;
   private loading: any;
   public user: any = {};
   public dadosUser = new Array<User>();
 
   constructor(
     private productsService: ProductService,
+    private ofertasService: OfertasService,
     private authService: AuthService,
     private loadingController: LoadingController,
     private toastController: ToastController,
@@ -34,8 +37,12 @@ export class AccountPage implements OnInit {
   ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       this.products = data;
-      console.log(this.products)
+      console.log('PRODUTOS DO FIREBASE: ',this.products)
     });
+    
+    this.ofertasService.getOfertas().then(data => {
+      console.log('PRODUTOS DO MEU BD: ', data)
+    })
     this.dataUser()
   }
 
