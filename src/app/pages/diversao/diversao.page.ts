@@ -34,7 +34,7 @@ export class DiversaoPage implements OnInit {
   }
 
   visualizarCarrinho() {
-    this._router.navigate(['/tabs/carrinho'])
+    this._router.navigate(['/tabs/carrinho'], { replaceUrl: true })
   }
 
 }

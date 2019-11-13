@@ -59,14 +59,15 @@
       <div class="col">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" routerLink='como-usar' routerLinkActive="active" data-toggle="tab" role="tab"
-              aria-expanded="true">Como
+            <a class="nav-link active" routerLink='/tabs/oferta/como-usar' routerLinkActive="active" data-toggle="tab"
+              role="tab" aria-expanded="true">Como
               usar</a>
             <!-- <ion-router-link color="tertiary" href="/como-usar">Como usar</ion-router-link> -->
           </li>
           <li class="nav-item">
             <!-- <ion-router-link color="tertiary" href="/onde-fica">Onde fica?</ion-router-link> -->
-            <a class="nav-link" routerLink='onde-fica' routerLinkActive="active" data-toggle="tab" role="tab">Onde
+            <a class="nav-link" [routerLink]="['tabs/oferta/onde-fica']" routerLinkActive="active" data-toggle="tab"
+              role="tab">Onde
               fica?</a>
           </li>
         </ul>

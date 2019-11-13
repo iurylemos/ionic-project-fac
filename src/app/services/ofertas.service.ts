@@ -95,4 +95,11 @@ export class OfertasService {
     .pipe(retry(10), (map((resposta: any) => resposta)))
   }
 
+  public getCarrinhoPorEmail(email: string) : Promise<any> {
+    return this.http.get(`${URL_API}/pedidos?email_cliente=${email}`)
+    .toPromise().then((pedido) => {
+      return pedido
+    })
+  }
+
 }

@@ -24,7 +24,8 @@ export class AccountPage implements OnInit {
   private produtosSubscription: any;
   private loading: any;
   public user: any = {};
-  public dadosUser = new Array<User>();
+  public dadosUser: Array<any>
+  public carrinhoClient: Array<any>
 
   constructor(
     private productsService: ProductService,
@@ -48,9 +49,17 @@ export class AccountPage implements OnInit {
 
   dataUser() {
     this.authService.getUsers().subscribe(data => {
-      this.dadosUser = data;
-      this.dadosUser = this.dadosUser.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
+      this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
       console.log('DADOS DO USUÁRIO: ', this.dadosUser)
+
+      for (let index = 0; index < this.dadosUser.length; index++) {
+        const element = this.dadosUser[index];
+      
+        this.ofertasService.getCarrinhoPorEmail(element.email).then((dados) => {
+          this.carrinhoClient = dados
+          console.log(this.carrinhoClient)
+        })
+      }
     })
   }
 
@@ -97,12 +106,14 @@ export class AccountPage implements OnInit {
 
   public async showAlert(product: any = {}) {
 
+    console.log(product)
+
     if (!this.user.isAdmin) {
       return;
     }
 
     const alert = await this.alertController.create({
-      header: product.id ? 'Atualizar produto' : 'Criar produto',
+      header: product._id ? 'Atualizar produto' : 'Criar produto',
       inputs: [
         {
           name: 'name',

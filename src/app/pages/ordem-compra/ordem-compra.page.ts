@@ -9,6 +9,9 @@ import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { CarrinhoService } from 'src/app/services/carrinho.service';
 import { Pedido } from 'src/app/shared/pedido.model';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-ordem-compra',
@@ -19,6 +22,9 @@ export class OrdemCompraPage implements OnInit {
 
   public idPedidoCompra: number = undefined
   public itensCarrinho: ItemCarrinho[] = []
+  public emailCliente: string
+  public dadosUser = new Array<User>();
+  public totalCarrinho : number
 
   public formulario: FormGroup = new FormGroup({
     'endereco': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]),
@@ -31,6 +37,8 @@ export class OrdemCompraPage implements OnInit {
     private ordemCompraService: OrdemCompraService,
     public carrinhoService: CarrinhoService,
     private _router: Router,
+    private fireAuth: AngularFireAuth,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -67,13 +75,13 @@ export class OrdemCompraPage implements OnInit {
            this.idPedidoCompra = element.id_pedido
           });
 
-        let pedido: Pedido = new Pedido(
-          this.formulario.value.endereco,
-          this.formulario.value.numero,
-          this.formulario.value.complemento,
-          this.formulario.value.formaPagamento,
-          this.carrinhoService.exibirItens()
-        )
+        // let pedido: Pedido = new Pedido(
+        //   this.formulario.value.endereco,
+        //   this.formulario.value.numero,
+        //   this.formulario.value.complemento,
+        //   this.formulario.value.formaPagamento,
+        //   this.carrinhoService.exibirItens()
+        // )
         // console.log(pedido)
         // console.log('Formulário está válido')
         //Pegar esse pedido e encaminhar para o serviço.
@@ -88,14 +96,39 @@ export class OrdemCompraPage implements OnInit {
         //For retornado, eu vou pegar essa informação
         //E atribuir esse idPedido ao atributo da nossa classe.
         //Que vou chamar de IdPedidoCompra
-        this.ordemCompraService.efetivarCompra(pedido)
-        .subscribe((idPedido: number) => {
-          this.idPedidoCompra = idPedido
-          this._router.navigate(['/tabs/compra-realizada'], { queryParams: { idPedido } })
-          // console.log('Imprimindo o id do pedido' +this.idPedidoCompra)
-          //Além de recuperar o id do pedido
-          //executar a limpeza
-          this.carrinhoService.limparCarrinho()
+        this.authService.getUsers().subscribe(data => {
+          // this.dadosUser = data;
+          this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
+          console.log('DADOS DO USUÁRIO: ', this.dadosUser)
+          for (let index = 0; index < this.dadosUser.length; index++) {
+            const element = this.dadosUser[index];
+  
+            this.emailCliente = element.email
+          }
+          console.log('EMAIL CLIENTE:', this.emailCliente)
+
+          let pedido: Pedido = new Pedido(
+            this.emailCliente,
+            this.formulario.value.endereco,
+            this.formulario.value.numero,
+            this.formulario.value.complemento,
+            this.formulario.value.formaPagamento,
+            this.carrinhoService.exibirItens()
+          )
+            
+           this.totalCarrinho = this.carrinhoService.totalCarrinhoCompras()
+
+           console.log(this.totalCarrinho)
+  
+          this.ordemCompraService.efetivarCompra(pedido)
+          .subscribe((idPedido: number) => {
+            this.idPedidoCompra = idPedido
+            this._router.navigate(['/tabs/compra-realizada'], { queryParams: { idPedido } , replaceUrl: true })
+            // console.log('Imprimindo o id do pedido' +this.idPedidoCompra)
+            //Além de recuperar o id do pedido
+            //executar a limpeza
+            this.carrinhoService.limparCarrinho()
+          })
         })
       }
 

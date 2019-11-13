@@ -7,6 +7,7 @@ import { CanActivate, Router } from '@angular/router';
 })
 export class ParamsService  {
 
+    carrinhoCliente: any
     params : any 
     constructor( ) {
 
@@ -16,6 +17,14 @@ export class ParamsService  {
     }
     getParams(){
         return this.params
+    }
+
+    setCarrinhoCliente(carrinhoCliente) {
+        this.carrinhoCliente = carrinhoCliente
+    }
+
+    getCarrinhoCliente() {
+        return this.carrinhoCliente
     }
 
 

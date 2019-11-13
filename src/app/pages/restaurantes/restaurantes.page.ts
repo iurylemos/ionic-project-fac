@@ -57,7 +57,7 @@ export class RestaurantesPage implements OnInit {
   }
 
   visualizarCarrinho() {
-    this._router.navigate(['/tabs/carrinho'])
+    this._router.navigate(['/tabs/carrinho'], { replaceUrl: true })
   }
 
   async open(event) {
