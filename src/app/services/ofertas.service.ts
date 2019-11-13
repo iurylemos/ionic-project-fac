@@ -102,4 +102,11 @@ export class OfertasService {
     })
   }
 
+  public getCarrinhoPorId(idProduto: string) : Promise<any> {
+    return this.http.get(`${URL_API}/pedidos?id_produto=${idProduto}`)
+    .toPromise().then((pedido) => {
+      return pedido
+    })
+  }
+
 }

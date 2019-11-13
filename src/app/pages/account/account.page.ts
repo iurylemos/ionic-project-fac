@@ -11,6 +11,7 @@ import { Oferta } from 'src/app/shared/Oferta.model';
 import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { Produto } from 'src/app/shared/produto.model';
 import { OfertasService } from 'src/app/services/ofertas.service';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-account',
@@ -34,7 +35,8 @@ export class AccountPage implements OnInit {
     private loadingController: LoadingController,
     private toastController: ToastController,
     private alertController: AlertController,
-    private fireAuth: AngularFireAuth
+    private fireAuth: AngularFireAuth,
+    private paramService: ParamsService
   ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       this.products = data;
@@ -47,7 +49,7 @@ export class AccountPage implements OnInit {
     this.dataUser()
   }
 
-  dataUser() {
+  public async dataUser() {
     this.authService.getUsers().subscribe(data => {
       this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
       console.log('DADOS DO USUÁRIO: ', this.dadosUser)
@@ -58,6 +60,7 @@ export class AccountPage implements OnInit {
         this.ofertasService.getCarrinhoPorEmail(element.email).then((dados) => {
           this.carrinhoClient = dados
           console.log(this.carrinhoClient)
+          this.paramService.setCarrinhoCliente(this.carrinhoClient)
         })
       }
     })
@@ -102,6 +105,10 @@ export class AccountPage implements OnInit {
     } catch (error) {
       this.presentToast('Erro ao tentar salvar');
     }
+  }
+
+  dataProduct(product: any) {
+    console.log(product)
   }
 
   public async showAlert(product: any = {}) {

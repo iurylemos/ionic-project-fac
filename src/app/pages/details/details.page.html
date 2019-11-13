@@ -4,13 +4,56 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Cadastro de Produto</ion-title>
+    <ion-title *ngIf="!productExiste">Cadastro de Produto</ion-title>
+    <ion-title *ngIf="productExiste">Atualizar Produto:</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content class="ion-padding">
-  <form [formGroup]="formulario" (ngSubmit)="cadastrarProduto()" novalidate>
+  <form *ngIf="!productExiste" [formGroup]="formulario" (ngSubmit)="cadastrarProduto()" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">ID_OFERTA</ion-label>
+        <ion-input type="text" formControlName="id_oferta" placeholder="ID da oferta:"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Categoria</ion-label>
+        <ion-input type="text" formControlName="categoria" placeholder="Categoria do produto:"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Titulo</ion-label>
+        <ion-input type="text" formControlName="titulo" placeholder="Titulo"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descrição da oferta</ion-label>
+        <ion-input type="text" formControlName="descricao_oferta" placeholder="Descrição da oferta"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Anunciante</ion-label>
+        <ion-input type="text" formControlName="anunciante" placeholder="Anunciante"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Valor</ion-label>
+        <ion-input type="text" formControlName="valor" placeholder="Preço"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Destaque</ion-label>
+        <ion-input type="text" formControlName="destaque" placeholder="Destaque"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Imagem1</ion-label>
+        <ion-input type="text" formControlName="imagem1" placeholder="Caminho da imagem 02:"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Imagem2</ion-label>
+        <ion-input type="text" formControlName="imagem2" placeholder="Caminho da imagem 02:"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button type="submit" expand="block"> Salvar produto </ion-button>
+  </form>
+
+  <form *ngIf="productExiste" [formGroup]="formularioUpdate" (ngSubmit)="atualizarProduto()" novalidate>
     <ion-list>
       <ion-item>
         <ion-label position="floating">ID_OFERTA</ion-label>

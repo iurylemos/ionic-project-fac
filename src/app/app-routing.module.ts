@@ -21,7 +21,8 @@ const routes: Routes = [
   //   // ]
   // },
   { path: 'carrinho', loadChildren: './pages/ordem-compra/ordem-compra.module#OrdemCompraPageModule', canActivate: [AuthGuard] },
-  { path: 'account', loadChildren: './pages/account/account.module#AccountPageModule' },
+  { path: 'account', loadChildren: './pages/account/account.module#AccountPageModule', canActivate: [AuthGuard] },
+  { path: 'data-product/:id', loadChildren: './pages/account/data-product/data-product.module#DataProductPageModule', canActivate: [AuthGuard] },
   
 ];
 

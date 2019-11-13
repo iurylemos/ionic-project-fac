@@ -8,6 +8,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { Produto } from 'src/app/shared/produto.model';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-details',
@@ -21,8 +22,22 @@ export class DetailsPage implements OnInit {
   private productId: string = '';
   private productSubscription: Subscription
   private productData: any
+  private productClient: Array<any>
+  private productExiste : boolean = false
 
   public formulario: FormGroup = new FormGroup({
+    'id_oferta': new FormControl(null, [Validators.required]),
+    'categoria': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
+    'titulo': new FormControl(null),
+    'descricao_oferta': new FormControl(null, [Validators.required]),
+    'anunciante': new FormControl(null, [Validators.required]),
+    'valor': new FormControl(null, [Validators.required]),
+    'destaque': new FormControl(null, [Validators.required]),
+    'imagem1': new FormControl(null, [Validators.required]),
+    'imagem2': new FormControl(null, [Validators.required]),
+  })
+
+  public formularioUpdate: FormGroup = new FormGroup({
     'id_oferta': new FormControl(null, [Validators.required]),
     'categoria': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
     'titulo': new FormControl(null),
@@ -42,6 +57,7 @@ export class DetailsPage implements OnInit {
     private activedRouter: ActivatedRoute,
     private navController: NavController,
     private ordemCompraService: OrdemCompraService,
+    private paramService: ParamsService
   ) { 
     // this.productId = this.activedRouter.params['id'];
     this.productData = this.activedRouter.snapshot.params;
@@ -113,6 +129,14 @@ export class DetailsPage implements OnInit {
     this.productSubscription = this.productService.getProduct(this.productId).subscribe(data => {
       this.product = data
     })
+
+    this.productClient = this.paramService.getCarrinhoCliente()
+    const filtered = this.productClient.filter(data => data._id === this.productId)
+    console.log('Filtered::',filtered)
+    if(filtered.length > 0) {
+      this.productExiste = true
+    }
+
   }
 
   ngOnDestroy(): void {
@@ -122,6 +146,10 @@ export class DetailsPage implements OnInit {
     if(this.productSubscription) {
       this.productSubscription.unsubscribe();
     }
+  }
+
+  atualizarProduto() {
+    console.log(this.formularioUpdate)
   }
 
   cadastrarProduto() {
