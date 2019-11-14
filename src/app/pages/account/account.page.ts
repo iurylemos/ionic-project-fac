@@ -50,6 +50,7 @@ export class AccountPage implements OnInit {
   }
 
   public async dataUser() {
+    this.presentLoading()
     this.authService.getUsers().subscribe(data => {
       this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
       console.log('DADOS DO USUÁRIO: ', this.dadosUser)
@@ -59,6 +60,7 @@ export class AccountPage implements OnInit {
       
         this.ofertasService.getCarrinhoPorEmail(element.email).then((dados) => {
           this.carrinhoClient = dados
+          this.loadingController.dismiss()
           console.log(this.carrinhoClient)
           this.paramService.setCarrinhoCliente(this.carrinhoClient)
         })

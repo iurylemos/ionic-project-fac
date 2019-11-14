@@ -45,6 +45,7 @@ export class OrdemCompraPage implements OnInit {
     console.log('entrou no carrinho')
     this.itensCarrinho = this.carrinhoService.exibirItens()
     console.log(this.itensCarrinho)
+    console.log('data:', new Date().toLocaleString())
   }
 
   public confirmarCompra(): void {
@@ -96,6 +97,9 @@ export class OrdemCompraPage implements OnInit {
         //For retornado, eu vou pegar essa informação
         //E atribuir esse idPedido ao atributo da nossa classe.
         //Que vou chamar de IdPedidoCompra
+
+          
+
         this.authService.getUsers().subscribe(data => {
           // this.dadosUser = data;
           this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
@@ -113,7 +117,9 @@ export class OrdemCompraPage implements OnInit {
             this.formulario.value.numero,
             this.formulario.value.complemento,
             this.formulario.value.formaPagamento,
-            this.carrinhoService.exibirItens()
+            this.carrinhoService.totalCarrinhoCompras(),
+            new Date().toLocaleString(),
+            this.carrinhoService.exibirItens(),
           )
             
            this.totalCarrinho = this.carrinhoService.totalCarrinhoCompras()

@@ -7,7 +7,7 @@ import { CanActivate, Router } from '@angular/router';
 })
 export class ParamsService  {
 
-    carrinhoCliente: any
+    carrinhoCliente: Array<any>
     params : any 
     constructor( ) {
 

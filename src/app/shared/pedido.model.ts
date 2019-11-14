@@ -7,6 +7,8 @@ export class Pedido {
     public numero: string,
     public complemento: string,
     public formaPagamento: string,
-    public itens: Array<ItemCarrinho>
+    public valor: number,
+    public data: string,
+    public itens: Array<ItemCarrinho>,
   ) { }
 }
