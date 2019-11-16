@@ -12,6 +12,7 @@ import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { Produto } from 'src/app/shared/produto.model';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { ParamsService } from 'src/app/services/params.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -25,8 +26,9 @@ export class AccountPage implements OnInit {
   private produtosSubscription: any;
   private loading: any;
   public user: any = {};
-  public dadosUser: Array<any>
-  public carrinhoClient: Array<any>
+  public dadosUser: Array<any> = []
+  public carrinhoClient: Array<any> = []
+  public filterPedidos: Array<any> = []
 
   constructor(
     private productsService: ProductService,
@@ -37,34 +39,71 @@ export class AccountPage implements OnInit {
     private alertController: AlertController,
     private fireAuth: AngularFireAuth,
     private paramService: ParamsService,
-    private ordemCompraService: OrdemCompraService
+    private ordemCompraService: OrdemCompraService,
+    private router: Router
   ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       // this.products = data;
-      console.log('PRODUTOS DO FIREBASE: ',this.products)
+      console.log('PRODUTOS DO FIREBASE: ', this.products)
     });
-    
-    this.ofertasService.getOfertas().then(data => {
-      console.log('PRODUTOS DO MEU BD: ', data)
+
+    this.ofertasService.todasOfertas().subscribe((data) => {
       this.products = data;
     })
+
+    // this.ofertasService.getOfertas().then(data => {
+    //   console.log('PRODUTOS DO MEU BD: ', data)
+    //   this.products = data;
+    // })
+
+    console.log('ROTA: ', this.router.getCurrentNavigation())
+
+    if (this.router.getCurrentNavigation().extras.state) {
+      console.log('Entrou no router')
+      this.dataUser()
+    }
+
+
+
     this.dataUser()
   }
+
+
 
   public async dataUser() {
     this.presentLoading()
     this.authService.getUsers().subscribe(data => {
+
+      console.log(data)
       this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
       console.log('DADOS DO USUÁRIO: ', this.dadosUser)
 
       for (let index = 0; index < this.dadosUser.length; index++) {
         const element = this.dadosUser[index];
-      
-        this.ofertasService.getCarrinhoPorEmail(element.email).then((dados) => {
-          this.carrinhoClient = dados
+
+        this.ofertasService.getCarrinhoPorEmail(element.email).subscribe((dados) => {
+
+          console.log('PEDIDOS DOS CARRINHOS: ',dados)
+
+          this.filterPedidos = dados
+
+          const filtered = this.filterPedidos.filter(data => data.email_cliente === element.email)
+
+          console.log(filtered)
+
+          if(filtered.length) {
+            this.carrinhoClient = dados
+            this.paramService.setCarrinhoCliente(this.carrinhoClient)
+          }else {
+
+          }
+
+
+
+          
           this.loadingController.dismiss()
           console.log(this.carrinhoClient)
-          this.paramService.setCarrinhoCliente(this.carrinhoClient)
+          
         })
       }
     })
@@ -106,22 +145,11 @@ export class AccountPage implements OnInit {
   public async deleteProduct(id: string) {
     console.log('ID DO PRODUTO QUE DESEJA DELETAR:', id)
     this.ordemCompraService.deleteProduct(id)
-          .subscribe((data: string) => {
-            console.log('idPedido:', data)
-          }, (error) => {
-            console.log(error)
-          })
-    // try {
-    //   await this.ofertasService.deleteProduct(id)
-    // } catch (error) {
-    //   this.presentToast('Erro ao tentar salvar');
-    // }
-
-    // try {
-    //   await this.productsService.deleteProduct(id)
-    // } catch (error) {
-    //   this.presentToast('Erro ao tentar salvar');
-    // }
+      .subscribe((data: string) => {
+        console.log('idPedido:', data)
+      }, (error) => {
+        console.log(error)
+      })
   }
 
   dataProduct(product: any) {

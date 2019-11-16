@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Subscription } from 'rxjs';
 import { AccountPage } from '../pages/account/account.page';
 import { map } from 'rxjs/operators';
+import { ParamsService } from './params.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthService {
   constructor(
     private fireAuth: AngularFireAuth,
     private fireBase: AngularFirestore,
+    private paramService: ParamsService
   ) { 
     this.userCollection = this.fireBase.collection<User>('Users')
   }
@@ -33,6 +35,7 @@ export class AuthService {
     try {
       await this.fireAuth.auth.signInWithEmailAndPassword(user.email, user.password);
       this.loadUser();
+      window.location.reload()
     } catch (error) {
 
     }
@@ -57,6 +60,7 @@ export class AuthService {
   }
 
   public logout() {
+    this.paramService.setCarrinhoCliente(null)
     return this.fireAuth.auth.signOut();
   }
 

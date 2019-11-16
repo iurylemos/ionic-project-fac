@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ordem-compra-sucesso',
@@ -10,7 +10,10 @@ export class OrdemCompraSucessoPage implements OnInit {
 
   public idPedidoCompra: number
 
-  constructor(router: ActivatedRoute) {
+  constructor(
+    private router: ActivatedRoute,
+    private _router: Router
+  ) {
     router.queryParams.subscribe((data) => {
       console.log(data.idPedido)
       this.idPedidoCompra = data.idPedido
@@ -19,6 +22,9 @@ export class OrdemCompraSucessoPage implements OnInit {
 
   ngOnInit() {
     console.log(this.idPedidoCompra)
+    setTimeout(() => {
+      this._router.navigate(['/tabs/perfil'], {  state: { 'idPedido' : 'CompraRealizada' }})
+    }, 3000);
   }
 
 }
