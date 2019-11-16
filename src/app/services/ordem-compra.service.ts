@@ -41,4 +41,17 @@ export class OrdemCompraService {
       map((resposta: any) => resposta) 
     );
   }
+
+  public deleteProduct(id: string) {
+
+    console.log("Entrou aqui no delete", id)
+    var data = {
+      "_id": id
+   }
+
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});  
+    return this.http.post(`${URL_API}/remover-oferta`, data, { headers: headers} ).pipe( 
+      map((resposta: any) => resposta) 
+    );
+  }
 }

@@ -20,7 +20,7 @@ import { ParamsService } from 'src/app/services/params.service';
 })
 export class AccountPage implements OnInit {
 
-  private products = new Array<Product>();
+  private products = new Array<Oferta>();
   private productsSubscription: Subscription;
   private produtosSubscription: any;
   private loading: any;
@@ -36,15 +36,17 @@ export class AccountPage implements OnInit {
     private toastController: ToastController,
     private alertController: AlertController,
     private fireAuth: AngularFireAuth,
-    private paramService: ParamsService
+    private paramService: ParamsService,
+    private ordemCompraService: OrdemCompraService
   ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
-      this.products = data;
+      // this.products = data;
       console.log('PRODUTOS DO FIREBASE: ',this.products)
     });
     
     this.ofertasService.getOfertas().then(data => {
       console.log('PRODUTOS DO MEU BD: ', data)
+      this.products = data;
     })
     this.dataUser()
   }
@@ -102,11 +104,24 @@ export class AccountPage implements OnInit {
   }
 
   public async deleteProduct(id: string) {
-    try {
-      await this.productsService.deleteProduct(id)
-    } catch (error) {
-      this.presentToast('Erro ao tentar salvar');
-    }
+    console.log('ID DO PRODUTO QUE DESEJA DELETAR:', id)
+    this.ordemCompraService.deleteProduct(id)
+          .subscribe((data: string) => {
+            console.log('idPedido:', data)
+          }, (error) => {
+            console.log(error)
+          })
+    // try {
+    //   await this.ofertasService.deleteProduct(id)
+    // } catch (error) {
+    //   this.presentToast('Erro ao tentar salvar');
+    // }
+
+    // try {
+    //   await this.productsService.deleteProduct(id)
+    // } catch (error) {
+    //   this.presentToast('Erro ao tentar salvar');
+    // }
   }
 
   dataProduct(product: any) {
