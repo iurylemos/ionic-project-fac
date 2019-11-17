@@ -29,9 +29,9 @@ export class RestaurantesPage implements OnInit {
     this.ofertasService.getOfertasPorCategoria('mercearia')
     //Then para a resposta, passando o arrowfunction
     //Que é ação que eu vou tomar, quando a resposta estiver pronta
-      .then(( ofertas: Oferta[] ) => {
-        this.ofertas = ofertas
-        console.log('COMPONENTE RESTAURANTES',ofertas[0])
+      .then(( oferta: Oferta[] ) => {
+        this.ofertas = oferta
+        console.log('COMPONENTE RESTAURANTES',oferta[0])
       })
   }
 
@@ -69,8 +69,8 @@ export class RestaurantesPage implements OnInit {
     this.ofertasService.getOfertasPorCategoria(this.filterCategory)
     //Then para a resposta, passando o arrowfunction
     //Que é ação que eu vou tomar, quando a resposta estiver pronta
-      .then(( ofertas: Oferta[] ) => {
-        this.ofertas = ofertas
+      .then(( oferta: Oferta[] ) => {
+        this.ofertas = oferta
         this.loading.dismiss();
       })
   }

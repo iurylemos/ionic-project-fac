@@ -6,7 +6,7 @@
 
 <ion-content>
   <!-- SEPARATOR -->
-  <ion-list *ngIf="!products.length">
+  <!-- <ion-list *ngIf="!products.length">
     <ion-item *ngFor="let item of [0, 1, 2]">
       <ion-avatar slot="start">
         <ion-skeleton-text animated></ion-skeleton-text>
@@ -23,11 +23,11 @@
         </p>
       </ion-label>
     </ion-item>
-  </ion-list>
-
+  </ion-list> -->
+  <!-- 
   <ion-list *ngFor="let item of dadosUser">
     <ion-item-sliding [hidden]="!item.isAdmin" *ngFor="let product of products">
-      <!-- Ao clicar o usuário vai para a tela de detalhes, passando o id -->
+      Ao clicar o usuário vai para a tela de detalhes, passando o id
       <ion-item (click)="showAlert(product)" button [routerLink]="['/details', product.id]">
         <ion-avatar slot="start">
           <img [src]="product.imagens[0].url">
@@ -35,7 +35,7 @@
         <ion-label>
           {{ product.titulo }}
           <p>{{ product.descricao_oferta }}</p>
-          <!-- <p>{{ product.createdAt | date: 'short' }}</p> -->
+          <p>{{ product.createdAt | date: 'short' }}</p>
           <p>26/20/22020 - 2239</p>
         </ion-label>
 
@@ -48,7 +48,7 @@
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-  </ion-list>
+  </ion-list> -->
   <!-- CARRINHO DE COMPRAS -->
   <div class="carrinho">
     <ion-list>
@@ -98,7 +98,7 @@
         </ion-col>
 
         <ion-col size="6" *ngFor="let item of dadosUser">
-          <ion-button [hidden]="!item.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
+          <ion-button [hidden]="!item.isAdmin" expand="block" (click)="openModal($event)">
             Add produto
           </ion-button>
         </ion-col>

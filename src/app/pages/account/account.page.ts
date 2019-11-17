@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
 import { Product } from 'src/app/interfaces/product';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
@@ -13,6 +13,7 @@ import { Produto } from 'src/app/shared/produto.model';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalCarrinhoPage } from './modal-carrinho/modal-carrinho.page';
 
 @Component({
   selector: 'app-account',
@@ -42,16 +43,17 @@ export class AccountPage implements OnInit {
     private paramService: ParamsService,
     private ordemCompraService: OrdemCompraService,
     private router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private modalController: ModalController
   ) {
-    this.productsSubscription = this.productsService.getProducts().subscribe(data => {
-      // this.products = data;
-      console.log('PRODUTOS DO FIREBASE: ', this.products)
-    });
+    // this.productsSubscription = this.productsService.getProducts().subscribe(data => {
+    //   // this.products = data;
+    //   console.log('PRODUTOS DO FIREBASE: ', this.products)
+    // });
 
-    this.ofertasService.todasOfertas().subscribe((data) => {
-      this.products = data;
-    })
+    // this.ofertasService.todasOfertas().subscribe((data) => {
+    //   this.products = data;
+    // })
 
     // this.ofertasService.getOfertas().then(data => {
     //   console.log('PRODUTOS DO MEU BD: ', data)
@@ -114,6 +116,7 @@ export class AccountPage implements OnInit {
             this.carrinhoClient = dados
             this.paramService.setCarrinhoCliente(this.carrinhoClient)
             this.produtosCadastrados = true
+            this.loadingController.dismiss()
           } else {
 
           }
@@ -152,6 +155,31 @@ export class AccountPage implements OnInit {
     });
     return this.loading.present();
   }
+
+  async openModal(field, shortCode?) {
+    console.log(field)
+
+    const modal = await this.modalController.create({
+      component: ModalCarrinhoPage,
+      componentProps: {
+        'filter': field
+      }
+
+    });
+
+    modal.onDidDismiss().then((r) => {
+      if (r !== undefined) {
+        console.log(r)
+        let filter = r.data.field
+        let value = r.data.name
+        let id = r.data.id
+        let sc = r.data.shortCode
+
+      }
+    })
+    return await modal.present();
+  }
+
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
