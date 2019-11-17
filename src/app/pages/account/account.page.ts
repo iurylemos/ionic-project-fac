@@ -12,7 +12,7 @@ import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { Produto } from 'src/app/shared/produto.model';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { ParamsService } from 'src/app/services/params.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -23,12 +23,13 @@ export class AccountPage implements OnInit {
 
   private products = new Array<Oferta>();
   private productsSubscription: Subscription;
-  private produtosSubscription: any;
+  private produtosCadastrados: boolean = false;
   private loading: any;
   public user: any = {};
   public dadosUser: Array<any> = []
   public carrinhoClient: Array<any> = []
   public filterPedidos: Array<any> = []
+  public userData: string
 
   constructor(
     private productsService: ProductService,
@@ -40,7 +41,8 @@ export class AccountPage implements OnInit {
     private fireAuth: AngularFireAuth,
     private paramService: ParamsService,
     private ordemCompraService: OrdemCompraService,
-    private router: Router
+    private router: Router,
+    private _route: ActivatedRoute
   ) {
     this.productsSubscription = this.productsService.getProducts().subscribe(data => {
       // this.products = data;
@@ -58,10 +60,18 @@ export class AccountPage implements OnInit {
 
     console.log('ROTA: ', this.router.getCurrentNavigation())
 
-    if (this.router.getCurrentNavigation().extras.state) {
-      console.log('Entrou no router')
-      this.dataUser()
-    }
+    // if (this.router.getCurrentNavigation().extras.state) {
+    //   console.log('Entrou no router')
+    //   this.dataUser()
+    // }
+
+    this._route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.dataUser()
+      }
+    });
+
+    
 
 
 
@@ -80,36 +90,53 @@ export class AccountPage implements OnInit {
 
       for (let index = 0; index < this.dadosUser.length; index++) {
         const element = this.dadosUser[index];
+        this.userData = element.email
+      }
 
-        this.ofertasService.getCarrinhoPorEmail(element.email).subscribe((dados) => {
+      console.log('EMAIL USUÁRIO: ', this.userData)
 
-          console.log('PEDIDOS DOS CARRINHOS: ',dados)
+      this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
+
+        if (dados.status === 404) {
+          this.loadingController.dismiss()
+          console.log('ENTROU AQ')
+        } else {
+
+          console.log('PEDIDOS DOS CARRINHOS: ', dados)
 
           this.filterPedidos = dados
 
-          const filtered = this.filterPedidos.filter(data => data.email_cliente === element.email)
+          const filtered = this.filterPedidos.filter(data => data.email_cliente === this.userData)
 
           console.log(filtered)
 
-          if(filtered.length) {
+          if (filtered.length) {
             this.carrinhoClient = dados
             this.paramService.setCarrinhoCliente(this.carrinhoClient)
-          }else {
+            this.produtosCadastrados = true
+          } else {
 
           }
-
-
-
-          
           this.loadingController.dismiss()
-          console.log(this.carrinhoClient)
-          
-        })
-      }
+
+        }
+
+        this.loadingController.dismiss()
+        console.log(this.carrinhoClient)
+
+      }, (error) => {
+        console.log(error)
+        this.loadingController.dismiss()
+        this.produtosCadastrados = false
+      })
     })
   }
 
   ngOnInit() {
+    if (this.router.getCurrentNavigation().extras.state) {
+      console.log('Entrou no router')
+      this.dataUser()
+    }
   }
 
   ngOnDestroy(): void {

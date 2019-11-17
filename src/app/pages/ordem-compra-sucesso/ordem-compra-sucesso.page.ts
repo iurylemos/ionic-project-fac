@@ -23,7 +23,7 @@ export class OrdemCompraSucessoPage implements OnInit {
   ngOnInit() {
     console.log(this.idPedidoCompra)
     setTimeout(() => {
-      this._router.navigate(['/tabs/perfil'], {  state: { 'idPedido' : 'CompraRealizada' }})
+      this._router.navigate(['/tabs/perfil'], {  state: { 'idPedido' : 'CompraRealizada' }, replaceUrl: true })
     }, 3000);
   }
 

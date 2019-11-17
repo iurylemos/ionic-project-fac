@@ -35,6 +35,7 @@ export class DetailsPage implements OnInit {
     'destaque': new FormControl(null, [Validators.required]),
     'imagem1': new FormControl(null, [Validators.required]),
     'imagem2': new FormControl(null, [Validators.required]),
+    'imagem3': new FormControl(null, [Validators.required]),
   })
 
   public formularioUpdate: FormGroup = new FormGroup({
@@ -170,7 +171,11 @@ export class DetailsPage implements OnInit {
        },
        {
          "url": this.formulario.value.imagem2
+        },
+        {
+          "url": this.formulario.value.imagem3
         }
+
       ];
 
 

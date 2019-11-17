@@ -39,7 +39,7 @@
           <p>26/20/22020 - 2239</p>
         </ion-label>
 
-        <ion-note color="primary" slot="end" *ngIf="product.price">{{ product.valor | currency: 'BRL' }}</ion-note>
+        <ion-note color="primary" slot="end" *ngIf="product.valor">{{ product.valor | currency: 'BRL' }}</ion-note>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option color="danger" (click)="deleteProduct(product._id)">
@@ -52,7 +52,12 @@
   <!-- CARRINHO DE COMPRAS -->
   <div class="carrinho">
     <ion-list>
-      <ion-list-header style="font-size: 23px; justify-content: center; padding-inline-start: 0; font-weight: bold;">
+      <ion-list-header *ngIf="!produtosCadastrados"
+        style="font-size: 23px; justify-content: center; padding-inline-start: 0; font-weight: bold;">
+        <ion-label>Seu carrinho está vázio</ion-label>
+      </ion-list-header>
+      <ion-list-header *ngIf="produtosCadastrados"
+        style="font-size: 23px; justify-content: center; padding-inline-start: 0; font-weight: bold;">
         <ion-label>Carrinho de Compras</ion-label>
       </ion-list-header>
       <ion-item-sliding *ngFor="let product of carrinhoClient">
@@ -68,7 +73,7 @@
             <p>Itens do pedido: {{ product.itens.length }}</p>
           </ion-label>
 
-          <ion-note color="primary" slot="end">430.00</ion-note>
+          <ion-note color="primary" slot="end">{{ product.valor | currency: 'BRL'  }}</ion-note>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="deleteProduct(product.id)">
@@ -93,7 +98,7 @@
         </ion-col>
 
         <ion-col size="6" *ngFor="let item of dadosUser">
-          <ion-button [disabled]="!item.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
+          <ion-button [hidden]="!item.isAdmin" routerLink="/details" expand="block" (click)="showAlert()">
             Add produto
           </ion-button>
         </ion-col>

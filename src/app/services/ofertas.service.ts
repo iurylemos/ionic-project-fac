@@ -2,8 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_API } from '../app.api';
-import { Observable } from 'rxjs';
-import { map, retry } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { map, retry, catchError } from 'rxjs/operators';
 import { Oferta } from '../shared/oferta.model';
 //Criando um serviço.
 //Decorando a classe com o Injectable
@@ -97,7 +97,11 @@ export class OfertasService {
 
   public getCarrinhoPorEmail(email: string) : Observable<any> {
     return this.http.get(`${URL_API}/pedidos?email_cliente=${email}`)
-    .pipe(retry(10), (map((pedido: any) => pedido)))
+    .pipe((map((pedido: any) => pedido)))
+    .pipe(catchError(error => {
+      if(error.status === 404) return of(error);
+      throwError(error)
+    }))
   }
 
   public getCarrinhoPorId(idProduto: string) : Promise<any> {
