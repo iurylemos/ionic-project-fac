@@ -48,7 +48,7 @@ export class OfertasService {
   //E utilizasse a função shift, nós iriamos extrair
   //O valor contido dentro do indice 0 do array
   //E os valors contido 1,2 seriam deslocados para o 1
-  public getOfertaPorId(id: number): Promise<Oferta> {
+  public getOfertaPorId(id: string): Promise<Oferta> {
     console.log(id)
       return this.http.get<Oferta[]>(`${URL_API}/ofertas?id_oferta=${id}`)
         .toPromise()

@@ -14,10 +14,6 @@
   <form *ngIf="!productExiste" [formGroup]="formulario" (ngSubmit)="cadastrarProduto()" novalidate>
     <ion-list>
       <ion-item>
-        <ion-label position="floating">ID_OFERTA</ion-label>
-        <ion-input type="text" formControlName="id_oferta" placeholder="ID da oferta:"></ion-input>
-      </ion-item>
-      <ion-item>
         <ion-label position="floating">Categoria</ion-label>
         <ion-input type="text" formControlName="categoria" placeholder="Categoria do produto:"></ion-input>
       </ion-item>

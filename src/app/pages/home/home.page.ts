@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
 
   passandoDados(event) {
     console.log(event)
-    this.returnUrl = event.id_oferta
+    this.returnUrl = event._id
     const filterCategoriaMercearia = this.categoriasMercearia.filter(data => data === event.categoria)
 
     console.log(filterCategoriaMercearia)

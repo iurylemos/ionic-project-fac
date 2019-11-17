@@ -24,9 +24,9 @@ export class DetailsPage implements OnInit {
   private productData: any
   private productClient: Array<any>
   private productExiste : boolean = false
+  private status: string = 'Ativo'
 
   public formulario: FormGroup = new FormGroup({
-    'id_oferta': new FormControl(null, [Validators.required]),
     'categoria': new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(20)]),
     'titulo': new FormControl(null),
     'descricao_oferta': new FormControl(null, [Validators.required]),
@@ -156,7 +156,6 @@ export class DetailsPage implements OnInit {
     console.log(this.formulario)
     if (this.formulario.status === "INVALID") {
       console.log('Formulário está inválido')
-      this.formulario.get('id_oferta').markAsTouched()
       this.formulario.get('categoria').markAsTouched()
       this.formulario.get('titulo').markAsTouched()
       this.formulario.get('descricao_oferta').markAsTouched()
@@ -174,9 +173,9 @@ export class DetailsPage implements OnInit {
         }
       ];
 
+
       console.log('entrou no else')
       let oferta: Produto = new Produto(
-        this.formulario.value.id_oferta,
         this.formulario.value.categoria,
         this.formulario.value.titulo,
         this.formulario.value.descricao_oferta,
@@ -184,6 +183,8 @@ export class DetailsPage implements OnInit {
         this.formulario.value.valor,
         this.formulario.value.destaque,
         data,
+        this.status,
+        new Date().toLocaleString()
       )
 
       this.ordemCompraService.cadastrarProduto(oferta).subscribe((data) => {

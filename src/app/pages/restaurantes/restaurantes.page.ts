@@ -37,7 +37,7 @@ export class RestaurantesPage implements OnInit {
 
   passandoDados(event) {
     console.log(event)
-    this._paramService.setParams(event)
+    this._paramService.setParams(event._id)
     this._router.navigate(['/tabs/restaurantes/oferta'])
   }
 
