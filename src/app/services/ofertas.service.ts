@@ -104,6 +104,16 @@ export class OfertasService {
     }))
   }
 
+  public getCarrinhosPorAdmin() : Observable<any> {
+    return this.http.get(`${URL_API}/pedidos`)
+    .pipe((map((pedido: any) => pedido)))
+    .pipe(catchError(error => {
+      if(error.status === 404) return of(error);
+      throwError(error)
+    }))
+  }
+
+
   public getCarrinhoPorId(idProduto: string) : Promise<any> {
     return this.http.get(`${URL_API}/pedidos?id_produto=${idProduto}`)
     .toPromise().then((pedido) => {

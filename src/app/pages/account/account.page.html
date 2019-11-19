@@ -5,52 +5,34 @@
 </ion-header>
 
 <ion-content>
-  <!-- SEPARATOR -->
-  <!-- <ion-list *ngIf="!products.length">
-    <ion-item *ngFor="let item of [0, 1, 2]">
-      <ion-avatar slot="start">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-        </p>
-        <p>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-list> -->
-  <!-- 
-  <ion-list *ngFor="let item of dadosUser">
-    <ion-item-sliding [hidden]="!item.isAdmin" *ngFor="let product of products">
-      Ao clicar o usuário vai para a tela de detalhes, passando o id
-      <ion-item (click)="showAlert(product)" button [routerLink]="['/details', product.id]">
-        <ion-avatar slot="start">
-          <img [src]="product.imagens[0].url">
-        </ion-avatar>
-        <ion-label>
-          {{ product.titulo }}
-          <p>{{ product.descricao_oferta }}</p>
-          <p>{{ product.createdAt | date: 'short' }}</p>
-          <p>26/20/22020 - 2239</p>
-        </ion-label>
-
-        <ion-note color="primary" slot="end" *ngIf="product.valor">{{ product.valor | currency: 'BRL' }}</ion-note>
+  <div id="login-form">
+    <div class="vertical-center">
+      <div class="center" style=" border-radius: 50%; position: relative; z-index: 10; margin-left: 13px;">
+        <img
+          src="https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg"
+          class="image--cover" />
+      </div>
+    </div>
+    <ion-list style="margin-bottom: 40px;" *ngFor="let item of dadosUser">
+      <ion-list-header position="stacked">
+        Informação do usuário:
+      </ion-list-header>
+      <ion-item>
+        <ion-label position="stacked">Nome:</ion-label>
+        <ion-note slot="end" color="primary">{{item.nome}}</ion-note>
       </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteProduct(product._id)">
-          <ion-icon slot="top" name="trash"></ion-icon>
-          Excluir
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list> -->
-  <!-- CARRINHO DE COMPRAS -->
-  <div class="carrinho">
+
+      <ion-item>
+        <ion-label position="stacked">E-mail de contato:</ion-label>
+        <ion-note slot="end" color="primary">{{item.email}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+
+  <!-- SEPARATOR -->
+  <div class="carrinho" *ngIf="!userAdmin">
     <ion-list>
       <ion-list-header *ngIf="!produtosCadastrados"
         style="font-size: 23px; justify-content: center; padding-inline-start: 0; font-weight: bold;">
@@ -75,6 +57,32 @@
 
           <ion-note color="primary" slot="end">{{ product.valor | currency: 'BRL'  }}</ion-note>
         </ion-item>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
+  <!-- PRODUTOS ADMINISTRATIVOS ABAIXO: -->
+  <div class="carrinho" *ngIf="userAdmin">
+    <ion-list>
+      <ion-list-header *ngIf="produtosCadastrados"
+        style="font-size: 23px; justify-content: center; padding-inline-start: 0; font-weight: bold;">
+        <ion-label>Carrinho Administrativo</ion-label>
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let product of produtosAdmin">
+        <!-- Ao clicar o usuário vai para a tela de detalhes, passando o id -->
+        <ion-item (click)="dataProduct(product)" button [routerLink]="['/data-product', product._id]">
+          <ion-avatar slot="start">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ1rAi1iEWTKaP9eiVTpuvgnQspwY6mTYVO5Sj3A4JBUwpgtQBd">
+          </ion-avatar>
+          <ion-label>
+            {{ product._id }}
+            <p>Pagamento: {{ product.formaPagamento }}</p>
+            <p>Itens do pedido: {{ product.itens.length }}</p>
+          </ion-label>
+
+          <ion-note color="primary" slot="end">{{ product.valor | currency: 'BRL'  }}</ion-note>
+        </ion-item>
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="deleteProduct(product.id)">
             <ion-icon slot="top" name="trash"></ion-icon>
@@ -84,6 +92,7 @@
       </ion-item-sliding>
     </ion-list>
   </div>
+
 
 </ion-content>
 

@@ -44,7 +44,7 @@ export class DataProductPage implements OnInit {
 
     console.log(this.exibirProduto)
 
-    console.log('DADOS DO CARRINHO: ',this.productData)
+    console.log('DADOS DO CARRINHO: ',this.productDatas)
 
   }
 

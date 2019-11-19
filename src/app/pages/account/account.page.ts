@@ -25,12 +25,14 @@ export class AccountPage implements OnInit {
   private products = new Array<Oferta>();
   private productsSubscription: Subscription;
   private produtosCadastrados: boolean = false;
+  private produtosAdmin: Array<any> = []
   private loading: any;
   public user: any = {};
   public dadosUser: Array<any> = []
   public carrinhoClient: Array<any> = []
   public filterPedidos: Array<any> = []
   public userData: string
+  public userAdmin: boolean
 
   constructor(
     private productsService: ProductService,
@@ -93,9 +95,19 @@ export class AccountPage implements OnInit {
       for (let index = 0; index < this.dadosUser.length; index++) {
         const element = this.dadosUser[index];
         this.userData = element.email
+        this.userAdmin = element.isAdmin
       }
 
       console.log('EMAIL USUÁRIO: ', this.userData)
+
+
+      if(this.userAdmin === true) {
+        this.ofertasService.getCarrinhosPorAdmin().subscribe((data) => {
+          console.log('DADOS DO CARRINHO GERAL:', data)
+          this.produtosAdmin = data
+        })
+      }
+
 
       this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
 
