@@ -54,4 +54,20 @@ export class OrdemCompraService {
       map((resposta: any) => resposta) 
     );
   }
+
+  public updateProduct(id:string, product: Produto) {
+
+    console.log("Entrou aqui no update", id)
+    var data = {
+      "_id": id,
+      "produto": product
+   }
+
+
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});  
+    return this.http.post(`${URL_API}/atualizar-oferta`, data, { headers: headers} ).pipe( 
+      map((resposta: any) => resposta) 
+    );
+
+  }
 }

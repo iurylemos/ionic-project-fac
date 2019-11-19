@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, AlertController } from '@ionic/angular';
+import { ModalController, NavParams, AlertController, LoadingController } from '@ionic/angular';
 import { OfertasService } from 'src/app/services/ofertas.service';
 import { Oferta } from 'src/app/shared/Oferta.model';
 import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 import { Router } from '@angular/router';
+import { Produto } from 'src/app/shared/produto.model';
 
 @Component({
   selector: 'app-modal-carrinho',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class ModalCarrinhoPage implements OnInit {
 
   private products = new Array<Oferta>();
+  private loading: any;
 
   constructor(
     private modalController: ModalController,
@@ -20,15 +22,21 @@ export class ModalCarrinhoPage implements OnInit {
     private ofertasService: OfertasService,
     private ordemCompraService: OrdemCompraService,
     private alertController: AlertController,
-    private router: Router
+    private loadingController: LoadingController,
+    private router: Router,
   ) {
     this.navParams.get('filter')
     console.log(this.navParams.get('filter'))
 
+    this.exibirOfertas()
+    
+  }
+
+  exibirOfertas() {
     this.ofertasService.todasOfertas().subscribe((data) => {
       this.products = data;
     })
-   }
+  }
 
   ngOnInit() {
   }
@@ -57,49 +65,49 @@ export class ModalCarrinhoPage implements OnInit {
           name: 'categoria',
           type: 'text',
           placeholder: 'Categoria',
-          value: product.name
+          value: product.categoria
         },
         {
           name: 'titulo',
           type: 'text',
           placeholder: 'Titulo',
-          value: product.price
+          value: product.titulo
         },
         {
-          name: 'descricao',
+          name: 'descricao_oferta',
           type: 'text',
           placeholder: 'Descrição oferta',
-          value: product.picture
+          value: product.descricao_oferta
         },
         {
-          name: 'anunciante',
+          name: 'status',
           type: 'text',
-          placeholder: 'Anunciante',
-          value: product.name
+          placeholder: 'Status atual',
+          value: product.status
         },
         {
-          name: 'preco',
+          name: 'valor',
           type: 'number',
           placeholder: 'Preço',
-          value: product.price
+          value: product.valor
         },
         {
           name: 'destaque',
           type: 'text',
           placeholder: 'Destaque? True or false',
-          value: product.picture
+          value: product.destaque
         },
         {
           name: 'imagem1',
           type: 'url',
           placeholder: 'Caminho imagem1',
-          value: product.name
+          value: product.imagens[0].url
         },
         {
           name: 'imagem2',
           type: 'url',
           placeholder: 'Caminho imagem2',
-          value: product.price
+          value: product.imagens[1].url
         },
         // {
         //   name: 'imagem3',
@@ -118,18 +126,56 @@ export class ModalCarrinhoPage implements OnInit {
           text: 'OK',
           cssClass: 'secondary',
           handler: data => {
+
+
+            var dados = [{
+              "url": data.imagem1
+            },
+            {
+              "url": data.imagem2
+            },
+            ];
+
+            console.log(data)
+
+
+            let oferta: Produto = new Produto(
+              data.categoria,
+              data.titulo,
+              data.descricao_oferta,
+              data.status,
+              data.valor,
+              data.destaque,
+              dados,
+              data.status,
+              new Date().toLocaleString()
+            )
+
+
             console.log(product)
             console.log(data)
-            if (product.id) {
-              // this.productsService.updateProduct(product.id, data);
-            } else {
-              // this.productsService.addProduct(data);
+            if (product._id) {
+              this.ordemCompraService.updateProduct(product._id, oferta).subscribe((data_product) => {
+                console.log('Dados do produto: ',data_product)
+                this.presentLoading('Adicionando produto')
+                this.exibirOfertas()
+                setTimeout(() => {
+                  this.loadingController.dismiss()
+                }, 1000);
+              });
             }
           }
         }
       ]
     });
     await alert.present()
+  }
+
+  async presentLoading(messagem?) {
+    this.loading = await this.loadingController.create({
+      message: messagem !== null ? messagem : 'Por favor, aguarde...'
+    });
+    return this.loading.present();
   }
 
 
