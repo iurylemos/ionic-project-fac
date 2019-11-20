@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Pedido } from '../shared/pedido.model';
 import { Oferta } from '../shared/Oferta.model';
 import { Produto } from '../shared/produto.model';
+import { UpdatePedido } from '../shared/updatePedido.model';
 
 //Agora está apto a receber serviços externos
 @Injectable()
@@ -66,6 +67,22 @@ export class OrdemCompraService {
 
     let headers = new HttpHeaders({'Content-Type': 'application/json'});  
     return this.http.post(`${URL_API}/atualizar-oferta`, data, { headers: headers} ).pipe( 
+      map((resposta: any) => resposta) 
+    );
+
+  }
+
+  public updatePedido(id:string, pedido: UpdatePedido) {
+
+    console.log("Entrou aqui no update", id)
+    var data = {
+      "_id": id,
+      "pedido": pedido
+   }
+
+
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});  
+    return this.http.post(`${URL_API}/atualizar-pedido`, data, { headers: headers} ).pipe( 
       map((resposta: any) => resposta) 
     );
 

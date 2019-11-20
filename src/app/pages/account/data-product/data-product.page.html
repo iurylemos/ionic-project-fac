@@ -59,35 +59,35 @@
   <div *ngFor="let user of dadosUsuario">
     <ion-list *ngIf="user.isAdmin">
       <!-- <ion-item-sliding> -->
-      <div *ngFor="let item of exibirProduto">
+      <div (click)="showAlert(pedido)" *ngFor="let pedido of exibirProduto">
         <ion-item>
-          <ion-label>Número Pedido: {{ item._id }}</ion-label>
+          <ion-label>Número Pedido: {{ pedido._id }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Status do Pedido: {{ item.status }}</ion-label>
+          <ion-label>Status do Pedido: {{ pedido.status }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>E-mail cliente: {{ item.email_cliente }}</ion-label>
+          <ion-label>E-mail cliente: {{ pedido.email_cliente }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Complemento: {{ item.complemento }}</ion-label>
+          <ion-label>Complemento: {{ pedido.complemento }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Endereco: {{ item.endereco }}</ion-label>
+          <ion-label>Endereco: {{ pedido.endereco }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>FormaPagamento: {{ item.formaPagamento }}</ion-label>
+          <ion-label>FormaPagamento: {{ pedido.formaPagamento }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Número da casa: {{ item.numero }}</ion-label>
+          <ion-label>Número da casa: {{ pedido.numero }}</ion-label>
         </ion-item>
         <ion-item>
-          <ion-label>Número de itens: {{ item.itens.length }}</ion-label>
+          <ion-label>Número de itens: {{ pedido.itens.length }}</ion-label>
         </ion-item>
         <ion-list-header>
           <ion-label style="font-size: 20px; font-weight: bold;">Produtos escolhidos:</ion-label>
         </ion-list-header>
-        <div style="border: solid; width: 93%; margin: 0 auto;" *ngFor="let subitens of item.itens">
+        <div style="border: solid; width: 93%; margin: 0 auto;" *ngFor="let subitens of pedido.itens">
           <ion-item>
             <ion-label>Nome do produto: {{ subitens.titulo }}</ion-label>
           </ion-item>

@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { DataProductPage } from './data-product.page';
+import { OrdemCompraService } from 'src/app/services/ordem-compra.service';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DataProductPage]
+  declarations: [DataProductPage],
+  providers: [OrdemCompraService]
 })
 export class DataProductPageModule {}
