@@ -92,6 +92,8 @@ export class AccountPage implements OnInit {
       this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
       console.log('DADOS DO USUÁRIO: ', this.dadosUser)
 
+      this.paramService.setUser(this.dadosUser)
+
       for (let index = 0; index < this.dadosUser.length; index++) {
         const element = this.dadosUser[index];
         this.userData = element.email

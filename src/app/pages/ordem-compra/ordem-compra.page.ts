@@ -25,6 +25,7 @@ export class OrdemCompraPage implements OnInit {
   public emailCliente: string
   public dadosUser = new Array<User>();
   public totalCarrinho : number
+  public status: string = 'Aberto'
 
   public formulario: FormGroup = new FormGroup({
     'endereco': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(120)]),
@@ -112,6 +113,7 @@ export class OrdemCompraPage implements OnInit {
           console.log('EMAIL CLIENTE:', this.emailCliente)
 
           let pedido: Pedido = new Pedido(
+            this.status,
             this.emailCliente,
             this.formulario.value.endereco,
             this.formulario.value.numero,

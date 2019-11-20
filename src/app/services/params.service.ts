@@ -9,9 +9,19 @@ export class ParamsService  {
 
     carrinhoCliente: Array<any>
     params : any 
+    usuario: Array<any>
     constructor( ) {
 
     }
+
+    setUser(u) {
+        this.usuario = u
+    }
+
+    getUser() {
+        return this.usuario
+    }
+
     setParams (p){
         this.params = p
     }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ParamsService } from 'src/app/services/params.service';
 import { LoadingController } from '@ionic/angular';
+import { OfertasService } from 'src/app/services/ofertas.service';
 
 @Component({
   selector: 'app-data-product',
@@ -14,15 +15,19 @@ export class DataProductPage implements OnInit {
   private productData: any = {}
   private exibirProduto: Array<any> = []
   private loading: any;
+  private dadosUsuario: Array<any> = []
 
 
   constructor(
     private activedRouter: ActivatedRoute,
     private paramService: ParamsService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private ofertasService: OfertasService,
   ) { 
     this.router()
-    
+    this.dadosUsuario = this.paramService.getUser()
+
+    console.log('DADOS DO USUÁRIO: ',this.dadosUsuario)
   }
 
   ngOnInit() {
@@ -36,10 +41,21 @@ export class DataProductPage implements OnInit {
 
     console.log("CARRINHO:", this.productDatas)
 
-    setTimeout(() => {
-      this.exibirProduto = this.productDatas.filter((data) => data._id === this.productData.id)
-      this.loading.dismiss();
-    }, 500);
+    if(this.productDatas !== undefined) {
+        this.exibirProduto = this.productDatas.filter((data) => data._id === this.productData.id)
+        this.loading.dismiss();
+    }else {
+      this.ofertasService.getCarrinhosPorAdmin().subscribe((data) => {
+        console.log('DADOS DO CARRINHO ADMIN:', data)
+
+        this.productDatas = data
+        this.exibirProduto = this.productDatas.filter((data) => data._id === this.productData.id)
+        this.loading.dismiss();
+      })
+      // this.
+    }
+
+   
 
 
     console.log(this.exibirProduto)

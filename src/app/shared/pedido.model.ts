@@ -2,6 +2,7 @@ import { ItemCarrinho } from './item-carrinho.model';
 
 export class Pedido {
   constructor(
+    public status: string,
     public email_cliente: string,
     public endereco: string,
     public numero: string,
