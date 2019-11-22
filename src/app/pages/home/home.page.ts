@@ -47,13 +47,14 @@ export class HomePage implements OnInit {
     const filterCategoriaMercearia = this.categoriasMercearia.filter(data => data === event.categoria)
 
     console.log(filterCategoriaMercearia)
+    this._paramService.setParams(null)
 
     if(filterCategoriaMercearia.length > 0) {
       this._paramService.setParams(this.returnUrl)
-      this._router.navigate(['/tabs/restaurantes/oferta'])
+      this._router.navigate(['/tabs/restaurantes/oferta'], { state: { page: 'Home' } , replaceUrl: true })
     }else {
       this._paramService.setParams(this.returnUrl)
-      this._router.navigate(['/tabs/diversao/oferta'])
+      this._router.navigate(['/tabs/diversao/oferta'], { state: { page: 'Home' }, skipLocationChange: true })
     }
     
   }

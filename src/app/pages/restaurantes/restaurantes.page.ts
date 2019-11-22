@@ -61,6 +61,7 @@ export class RestaurantesPage implements OnInit {
   }
 
   async open(event) {
+    this.ofertas = []
     // console.log(event)
     this.filterCategory = event.detail.value
     // console.log(this.filterCategory)
@@ -69,6 +70,7 @@ export class RestaurantesPage implements OnInit {
     this.ofertasService.getOfertasPorCategoria(this.filterCategory)
     //Then para a resposta, passando o arrowfunction
     //Que é ação que eu vou tomar, quando a resposta estiver pronta
+    
       .then(( oferta: Oferta[] ) => {
         this.ofertas = oferta
         this.loading.dismiss();

@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons *ngIf="retornoUrl" slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons *ngIf="!retornoUrl" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-
     <ion-title>Oferta</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,9 +14,10 @@
   <div class="container">
     <div class="oferta" *ngIf="oferta !== undefined">
 
-      <div class="row">
+      <div class="row" style="margin-bottom: 30px;">
         <div class="col">
-          <h4>{{ oferta.descricao_oferta }}</h4>
+          <p>Descrição do produto:</p>
+          <h5>{{ oferta.descricao_oferta }}</h5>
         </div>
       </div>
 

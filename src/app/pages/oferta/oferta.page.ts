@@ -8,7 +8,7 @@ import { CarrinhoService } from 'src/app/services/carrinho.service';
 import { Oferta } from 'src/app/shared/oferta.model';
 import { ItemCarrinho } from 'src/app/shared/item-carrinho.model';
 import { ParamsService } from 'src/app/services/params.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-oferta',
@@ -18,7 +18,10 @@ import { ToastController } from '@ionic/angular';
 export class OfertaPage implements OnInit {
 
   public oferta: Oferta
+  public ofertas: Oferta
+  public loading : any
   public itens: ItemCarrinho[] = []
+  public retornoUrl: boolean = false
 
   constructor(
    private route: ActivatedRoute, 
@@ -27,9 +30,36 @@ export class OfertaPage implements OnInit {
    private router: Router,
    private _paramService : ParamsService,
    private toastController: ToastController,
+   private loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
+
+    
+    this.route.queryParams.subscribe(params => {
+      console.log('ROUTER',this.router.getCurrentNavigation())
+
+      if(this.router.getCurrentNavigation().extras) {
+
+        if(this.router.getCurrentNavigation().extras.skipLocationChange) {
+          this.retornoUrl = true
+        }
+        console.log('ENTROU')
+        this.pegarOferta()
+      }else {
+        this.retornoUrl = false
+        this.pegarOferta()
+      }
+    })
+
+    
+
+  }
+
+  public async pegarOferta()  {
+    await this.presentLoading()
+    this.oferta = this.ofertas
+
     let params = this._paramService.getParams()
     // this.route.queryParams.subscribe((parametros: Params) => {
       console.log(params)
@@ -41,9 +71,8 @@ export class OfertaPage implements OnInit {
         this.oferta = oferta
         //Verificando o que tem dentro do objeto
         console.log(' OFERTA OFERTA' ,this.oferta)
+        this.loadingController.dismiss()
       })
-    // })
-
   }
 
   public adicionarItemCarrinho(): void {
@@ -60,9 +89,16 @@ export class OfertaPage implements OnInit {
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 5000
+      duration: 2000
     });
     toast.present();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Por favor, aguarde...'
+    });
+    return this.loading.present();
   }
 
 }

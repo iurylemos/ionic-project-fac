@@ -1,24 +1,19 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-buttons slot="secondary">
-      <ion-button>
-        <ion-icon color="primary" slot="icon-only" name="logo-ionic"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-title>Mercearia</ion-title>
-
-    <ion-buttons slot="primary">
-      <ion-button (click)="visualizarCarrinho()">
-        <ion-icon color="primary" name="cart"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>
+      Mercearia
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <!-- FILTRO DE CATEGORIAS -->
 
 <ion-content>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button (click)="visualizarCarrinho()" color="primary">
+      <ion-icon name="cart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-item>
     <ion-label>Categorias</ion-label>
     <ion-select (ionChange)="open($event)">
@@ -35,7 +30,7 @@
       <ion-card-title>{{ oferta.titulo }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-note>{{ oferta.valor | currency:'BRL' }}</ion-note>
+      <ion-note style="font-size: 18px; color: green;">{{ oferta.valor | currency:'BRL' }}</ion-note>
       <ion-button (click)="passandoDados(oferta)" size="larger">Ver oferta</ion-button>
     </ion-card-content>
   </ion-card>
