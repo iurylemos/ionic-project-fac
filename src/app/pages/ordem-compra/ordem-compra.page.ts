@@ -136,6 +136,8 @@ export class OrdemCompraPage implements OnInit {
             //Além de recuperar o id do pedido
             //executar a limpeza
             this.carrinhoService.limparCarrinho()
+          },(error)=>{
+            console.log(error)
           })
         })
       }

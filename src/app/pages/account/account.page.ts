@@ -156,12 +156,6 @@ export class AccountPage implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    this.productsSubscription.unsubscribe();
-  }
-
   //Método que copiei da documentação: https://ionicframework.com/docs/api/loading
   async presentLoading() {
     this.loading = await this.loadingController.create({
