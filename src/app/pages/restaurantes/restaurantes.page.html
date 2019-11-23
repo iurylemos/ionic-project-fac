@@ -32,6 +32,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-note style="font-size: 18px; color: green;">{{ oferta.valor | currency:'BRL' }}</ion-note>
+      <ion-badge style="float: right;" *ngIf="oferta.destaque === 'true'" color="danger" slot="end">Promoção</ion-badge>
       <!-- <ion-button (click)="passandoDados(oferta)" size="larger">Ver oferta</ion-button> -->
     </ion-card-content>
   </ion-card>

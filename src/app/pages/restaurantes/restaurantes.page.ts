@@ -61,13 +61,12 @@ export class RestaurantesPage implements OnInit {
   }
 
   async open(event) {
+    await this.presentLoading()
     this.ofertas = []
-    // console.log(event)
+    console.log('Entrou no OPEN',event)
     this.filterCategory = event.detail.value
     // console.log(this.filterCategory)
-    await this.presentLoading()
-    
-    this.ofertasService.getOfertasPorCategoria(this.filterCategory)
+    await this.ofertasService.getOfertasPorCategoria(this.filterCategory)
     //Then para a resposta, passando o arrowfunction
     //Que é ação que eu vou tomar, quando a resposta estiver pronta
     
