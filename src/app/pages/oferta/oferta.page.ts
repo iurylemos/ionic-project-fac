@@ -40,14 +40,13 @@ export class OfertaPage implements OnInit {
       console.log('ROUTER',this.router.getCurrentNavigation())
 
       if(this.router.getCurrentNavigation().extras) {
-
-        if(this.router.getCurrentNavigation().extras.skipLocationChange) {
+        if(this.router.getCurrentNavigation().extras.state) {
+          console.log('ENTROU NO IF')
           this.retornoUrl = true
+        }else {
+          console.log('ENTROU NO ELSE')
+          this.retornoUrl = false
         }
-        console.log('ENTROU')
-        this.pegarOferta()
-      }else {
-        this.retornoUrl = false
         this.pegarOferta()
       }
     })
@@ -99,6 +98,14 @@ export class OfertaPage implements OnInit {
       message: 'Por favor, aguarde...'
     });
     return this.loading.present();
+  }
+
+  public retornoPage(param) {
+    console.log(param)
+    if(param === 'HOME')
+    this.router.navigate(['/tabs/home'], { replaceUrl: true })
+    else
+    this.router.navigate(['/tabs/restaurantes'], { replaceUrl: true})
   }
 
 }

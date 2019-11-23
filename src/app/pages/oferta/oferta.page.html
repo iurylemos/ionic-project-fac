@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons *ngIf="retornoUrl" slot="start">
-      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+      <ion-back-button (click)="retornoPage('HOME')" defaultHref="/tabs/home"></ion-back-button>
     </ion-buttons>
     <ion-buttons *ngIf="!retornoUrl" slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button (click)="retornoPage('MERCEARIA')"></ion-back-button>
     </ion-buttons>
     <ion-title>Oferta</ion-title>
   </ion-toolbar>
@@ -16,7 +16,9 @@
 
       <div class="row" style="margin-bottom: 30px;">
         <div class="col">
-          <p>Descrição do produto:</p>
+          <p style="font-weight: bold;"> Nome do produto: </p>
+          <h4>{{oferta.titulo}}</h4>
+          <p style="font-weight: bold;">Descrição do produto:</p>
           <h5>{{ oferta.descricao_oferta }}</h5>
         </div>
       </div>
@@ -42,14 +44,15 @@
 
           <div class="row">
             <div class="col text-center">
-              <h1>{{ oferta.valor | currency:'BRL' }}</h1>
+              <h1 style="font-weight: bold;">{{ oferta.valor | currency:'BRL' }}</h1>
             </div>
           </div>
 
           <div class="row">
             <div class="col text-center">
-              <button (click)="adicionarItemCarrinho()" type="button" class="btn btn-warning btn-lg">Adicionar ao
-                carrinho</button>
+              <ion-button (click)="adicionarItemCarrinho()" color="warning" expand="block">Confirmar compra</ion-button>
+              <!-- <button (click)="adicionarItemCarrinho()" type="button" class="btn btn-warning btn-lg">Adicionar ao
+                carrinho</button> -->
             </div>
           </div>
 
@@ -58,18 +61,18 @@
       </div>
 
     </div>
-    <div class="row" style="margin-top: 25px; margin-bottom: 150px;">
+    <!-- <div class="row" style="margin-top: 25px; margin-bottom: 150px;">
       <div class="col">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" routerLink='/tabs/oferta/como-usar' routerLinkActive="active" data-toggle="tab"
               role="tab" aria-expanded="true">Como
               usar</a>
-            <!-- <ion-router-link color="tertiary" href="/como-usar">Como usar</ion-router-link> -->
+            <ion-router-link color="tertiary" href="/como-usar">Como usar</ion-router-link>
           </li>
           <li class="nav-item">
-            <!-- <ion-router-link color="tertiary" href="/onde-fica">Onde fica?</ion-router-link> -->
-            <a class="nav-link" [routerLink]="['tabs/oferta/onde-fica']" routerLinkActive="active" data-toggle="tab"
+            <ion-router-link color="tertiary" href="/onde-fica">Onde fica?</ion-router-link>
+            <a class="nav-link" [routerLink]="['/tabs/oferta/onde-fica']" routerLinkActive="active" data-toggle="tab"
               role="tab">Onde
               fica?</a>
           </li>
@@ -78,7 +81,7 @@
           <router-outlet></router-outlet>
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </ion-content>

@@ -1,6 +1,6 @@
 .ordem-compra {
-  margin-top: 50px;
-  margin-bottom: 150px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* Apenas para elementos do tipo input
@@ -20,6 +20,12 @@ input.ng-valid.ng-touched {
 
 select.ng-valid.ng-touched {
   border: 1px solid green;
+}
+
+h5 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 ion-header {

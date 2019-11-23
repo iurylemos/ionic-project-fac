@@ -34,6 +34,7 @@ export class ModalCarrinhoPage implements OnInit {
 
   exibirOfertas() {
     this.ofertasService.todasOfertas().subscribe((data) => {
+      console.log('todos ofertas', data)
       this.products = data;
     })
   }
@@ -103,12 +104,12 @@ export class ModalCarrinhoPage implements OnInit {
           placeholder: 'Caminho imagem1',
           value: product.imagens[0].url
         },
-        {
-          name: 'imagem2',
-          type: 'url',
-          placeholder: 'Caminho imagem2',
-          value: product.imagens[1].url
-        },
+        // {
+        //   name: 'imagem2',
+        //   type: 'url',
+        //   placeholder: 'Caminho imagem2',
+        //   value: product.imagens[1].url
+        // },
         // {
         //   name: 'imagem3',
         //   type: 'url',
