@@ -103,8 +103,8 @@ export class AccountPage implements OnInit {
         this.ofertasService.getCarrinhosPorAdmin().subscribe((data) => {
           console.log('DADOS DO CARRINHO GERAL:', data)
           this.produtosAdmin = data
-          this.loadingController.dismiss()
         })
+        this.loadingController.dismiss()
       }else {
         this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
 
@@ -125,9 +125,9 @@ export class AccountPage implements OnInit {
               this.carrinhoClient = dados
               this.paramService.setCarrinhoCliente(this.carrinhoClient)
               this.produtosCadastrados = true
-              this.loadingController.dismiss()
             }
-  
+
+            this.loadingController.dismiss()
           }
   
           console.log(this.carrinhoClient)
