@@ -110,38 +110,39 @@ export class AccountPage implements OnInit {
         })
       }
 
+      if(this.userAdmin !== true) {
+        this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
 
-      this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
-
-        if (dados.status === 404) {
-          this.loadingController.dismiss()
-          console.log('ENTROU AQ')
-        } else {
-
-          console.log('PEDIDOS DOS CARRINHOS: ', dados)
-
-          this.filterPedidos = dados
-
-          const filtered = this.filterPedidos.filter(data => data.email_cliente === this.userData)
-
-          console.log(filtered)
-
-          if (filtered.length) {
-            this.carrinhoClient = dados
-            this.paramService.setCarrinhoCliente(this.carrinhoClient)
-            this.produtosCadastrados = true
+          if (dados.status === 404) {
             this.loadingController.dismiss()
+            console.log('ENTROU AQ')
+          } else {
+  
+            console.log('PEDIDOS DOS CARRINHOS: ', dados)
+  
+            this.filterPedidos = dados
+  
+            const filtered = this.filterPedidos.filter(data => data.email_cliente === this.userData)
+  
+            console.log(filtered)
+  
+            if (filtered.length) {
+              this.carrinhoClient = dados
+              this.paramService.setCarrinhoCliente(this.carrinhoClient)
+              this.produtosCadastrados = true
+            }
+  
           }
-
-        }
-
-        console.log(this.carrinhoClient)
-
-      }, (error) => {
-        console.log(error)
-        this.loadingController.dismiss()
-        this.produtosCadastrados = false
-      })
+  
+          console.log(this.carrinhoClient)
+  
+        }, (error) => {
+          console.log(error)
+          this.loadingController.dismiss()
+          this.produtosCadastrados = false
+        })
+      }
+      this.loadingController.dismiss()
     })
   }
 
@@ -195,6 +196,7 @@ export class AccountPage implements OnInit {
 
   public async logout() {
     try {
+      this.router.navigate(['/login'], { replaceUrl: true })
       await this.authService.logout()
     } catch (error) {
       console.error(error)

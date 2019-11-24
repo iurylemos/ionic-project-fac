@@ -73,12 +73,11 @@
         <!-- Ao clicar o usuário vai para a tela de detalhes, passando o id -->
         <ion-item (click)="dataProduct(product)" button [routerLink]="['/data-product', product._id]">
           <ion-avatar slot="start">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ1rAi1iEWTKaP9eiVTpuvgnQspwY6mTYVO5Sj3A4JBUwpgtQBd">
+            <img src="http://www.tilthalliance.org/about/basketincircle.png/image_preview">
           </ion-avatar>
           <ion-label>
             {{ product._id }}
-            <p>Status do pedido: {{ product.status }}</p>
+            <p>Status: {{ product.status }}</p>
             <p>Itens do pedido: {{ product.itens.length }}</p>
           </ion-label>
 

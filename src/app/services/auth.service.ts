@@ -35,7 +35,6 @@ export class AuthService {
     try {
       await this.fireAuth.auth.signInWithEmailAndPassword(user.email, user.password);
       this.loadUser();
-      window.location.reload()
     } catch (error) {
 
     }
