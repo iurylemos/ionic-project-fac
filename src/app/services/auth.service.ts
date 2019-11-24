@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../interfaces/user';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentData } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { AccountPage } from '../pages/account/account.page';
 import { map } from 'rxjs/operators';
@@ -15,6 +15,7 @@ export class AuthService {
   private user: AccountPage
   private userSubscription: Subscription
   private userCollection : AngularFirestoreCollection<User>;
+  private dadosUsuario: Array<any>
 
   constructor(
     private fireAuth: AngularFireAuth,
@@ -80,5 +81,31 @@ export class AuthService {
           });
         })
       );
+  }
+
+  public async getUser(email: string) {
+    const snapchot = await this.userCollection.ref.get();
+        return new Promise <DocumentData[]> (resolve => {
+            const v = snapchot.docs.map(x => {
+                const obj = x.data();
+
+                return obj
+            });
+            const filter = v.filter(data => data.email === email)
+            resolve(filter);
+        });
+
+    // console.log(this.fireAuth.auth.currentUser.uid)
+
+    //     this.userCollection.doc("WuBtpRa4VyZNdQhGn4DL")
+    //     .get()
+    //     .subscribe(function(doc) {
+    //       if (doc.exists) {
+    //         console.log("Document data:", doc.data());
+    //       } else {
+    //         // doc.data() will be undefined in this case
+    //         console.log("No such document!");
+    //       }
+    //     })
   }
 }

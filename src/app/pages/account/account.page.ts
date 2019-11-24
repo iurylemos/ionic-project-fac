@@ -72,25 +72,21 @@ export class AccountPage implements OnInit {
     this._route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.dataUser()
+      }else {
+        this.dataUser()
       }
     });
-
-    
-
-
-
-    this.dataUser()
   }
 
 
 
   public async dataUser() {
-    this.presentLoading()
-    this.authService.getUsers().subscribe(data => {
+    await this.presentLoading()
 
-      console.log(data)
-      this.dadosUser = data.filter((data) => data.email === this.fireAuth.auth.currentUser.email)
-      console.log('DADOS DO USUÁRIO: ', this.dadosUser)
+    await this.authService.getUser(this.fireAuth.auth.currentUser.email).then((dados) => {
+      console.log('DADOS: ',dados)
+
+      this.dadosUser = dados
 
       this.paramService.setUser(this.dadosUser)
 
@@ -107,6 +103,7 @@ export class AccountPage implements OnInit {
         this.ofertasService.getCarrinhosPorAdmin().subscribe((data) => {
           console.log('DADOS DO CARRINHO GERAL:', data)
           this.produtosAdmin = data
+          this.loadingController.dismiss()
         })
       }
 
@@ -130,6 +127,7 @@ export class AccountPage implements OnInit {
               this.carrinhoClient = dados
               this.paramService.setCarrinhoCliente(this.carrinhoClient)
               this.produtosCadastrados = true
+              this.loadingController.dismiss()
             }
   
           }
@@ -142,7 +140,7 @@ export class AccountPage implements OnInit {
           this.produtosCadastrados = false
         })
       }
-      this.loadingController.dismiss()
+      // this.loadingController.dismiss()
     })
   }
 
