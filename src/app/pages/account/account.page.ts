@@ -131,14 +131,10 @@ export class AccountPage implements OnInit {
             this.paramService.setCarrinhoCliente(this.carrinhoClient)
             this.produtosCadastrados = true
             this.loadingController.dismiss()
-          } else {
-
           }
-          this.loadingController.dismiss()
 
         }
 
-        this.loadingController.dismiss()
         console.log(this.carrinhoClient)
 
       }, (error) => {

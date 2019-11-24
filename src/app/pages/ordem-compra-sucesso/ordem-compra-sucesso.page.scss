@@ -1,0 +1,24 @@
+ion-header {
+  --box-shadow:none;
+  overflow: hidden;
+}
+
+ion-toolbar {
+  background-image: linear-gradient(red, white);
+  --background: bd;
+  --color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+ion-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 90px 1px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
