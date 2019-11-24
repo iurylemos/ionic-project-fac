@@ -105,9 +105,7 @@ export class AccountPage implements OnInit {
           this.produtosAdmin = data
           this.loadingController.dismiss()
         })
-      }
-
-      if(this.userAdmin !== true) {
+      }else {
         this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
 
           if (dados.status === 404) {

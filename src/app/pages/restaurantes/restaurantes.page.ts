@@ -67,12 +67,9 @@ export class RestaurantesPage implements OnInit {
     this.filterCategory = event.detail.value
     // console.log(this.filterCategory)
     await this.ofertasService.getOfertasPorCategoria(this.filterCategory)
-    //Then para a resposta, passando o arrowfunction
-    //Que é ação que eu vou tomar, quando a resposta estiver pronta
-    
-      .then(( oferta: Oferta[] ) => {
+    .then(( oferta: Oferta[] ) => {
         this.ofertas = oferta
-        this.loading.dismiss();
-      })
+    })
+    this.loading.dismiss();
   }
 }

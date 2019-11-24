@@ -3,6 +3,8 @@ import { IonSlides, LoadingController, ToastController } from '@ionic/angular';
 import { Keyboard } from "@ionic-native/keyboard/ngx";
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -17,18 +19,24 @@ export class LoginPage implements OnInit {
   public userLogin: User = {};
   public userRegister: User = {};
   public loading: any;
+  private userCollection : AngularFirestoreCollection<User>;
 
   constructor(
     public keyboard: Keyboard,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private authService: AuthService
-  ) { }
+    private fireAuth: AngularFireAuth,
+    private authService: AuthService,
+    private fireBase: AngularFirestore,
+  ) {
+    this.userCollection = this.fireBase.collection<User>('Users')
+   }
 
   ngOnInit() {
     //Bloqueando a navegação de arrastar para o lado os slides.
     // this.slides.lockSwipes(true);
     //console.log('TECLADO ESTÁ VISIVEL: ', this.keyboard.isVisible)
+    
 
   }
 
@@ -53,10 +61,11 @@ export class LoginPage implements OnInit {
       //Posso atribuir esse método abaixo que está sendo executado
       //A uma variável, e partir dela pegar as informações do usuário
   
-      await this.authService.login(this.userLogin)
+      // await this.authService.login(this.userLogin)
+      await this.fireAuth.auth.signInWithEmailAndPassword(this.userLogin.email, this.userLogin.password);
       // this.route.navigate('/home')
     } catch (error) {
-      // console.error(error)
+      console.error('ERROR: ',error.code)
       //Como o error está vindo inglês do firebase, 
       //vou transformar ele para português
       let message: string;
@@ -85,7 +94,10 @@ export class LoginPage implements OnInit {
     // })
     //Vou tentar registrar o usuário
     try {
-      await this.authService.register(this.userRegister)
+      await this.fireAuth.auth.createUserWithEmailAndPassword(this.userRegister.email, this.userRegister.password);
+      // await this.fireBase.collection('Users').add(user)
+      await this.userCollection.add(this.userRegister)
+      // await this.authService.register(this.userRegister)
     } catch (error) {
       // console.error(error)
       //Como o error está vindo inglês do firebase, 
