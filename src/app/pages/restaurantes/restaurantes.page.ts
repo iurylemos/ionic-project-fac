@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 // import { OfertasService } from '../ofertas.service';
 // import { Oferta } from '../shared/Oferta.model';
 import { OfertasService } from 'src/app/services/ofertas.service';
@@ -13,25 +13,26 @@ import { LoadingController, ToastController } from '@ionic/angular';
   styleUrls: ['./restaurantes.page.scss'],
 })
 export class RestaurantesPage implements OnInit {
-  public ofertas : Oferta[]
+  public ofertas: Oferta[]
   public filterCategory: string
-  public loading : any
+  public loading: any
 
   constructor(
     private ofertasService: OfertasService,
     private _router: Router,
     private toastController: ToastController,
-    private _paramService : ParamsService,
+    private _paramService: ParamsService,
     private loadingController: LoadingController,
-    ) { }
+    private zone: NgZone
+  ) { }
 
   ngOnInit() {
     this.ofertasService.getOfertasPorCategoria('mercearia')
-    //Then para a resposta, passando o arrowfunction
-    //Que é ação que eu vou tomar, quando a resposta estiver pronta
-      .then(( oferta: Oferta[] ) => {
+      //Then para a resposta, passando o arrowfunction
+      //Que é ação que eu vou tomar, quando a resposta estiver pronta
+      .then((oferta: Oferta[]) => {
         this.ofertas = oferta
-        console.log('COMPONENTE RESTAURANTES',oferta[0])
+        console.log('COMPONENTE RESTAURANTES', oferta[0])
       })
   }
 
@@ -63,12 +64,16 @@ export class RestaurantesPage implements OnInit {
   async open(event) {
     await this.presentLoading()
     this.ofertas = []
-    console.log('Entrou no OPEN',event)
+    console.log('Entrou no OPEN', event)
     this.filterCategory = event.detail.value
     // console.log(this.filterCategory)
-    await this.ofertasService.getOfertasPorCategoria(this.filterCategory)
-    .then(( oferta: Oferta[] ) => {
-        this.ofertas = oferta
+    this.zone.run(async () => {
+      await this.ofertasService.getOfertasPorCategoria(this.filterCategory)
+        .then((oferta: Oferta[]) => {
+          this.ofertas = oferta
+        }).catch((error) => {
+          console.log('error', error)
+        })
     })
     this.loading.dismiss();
   }

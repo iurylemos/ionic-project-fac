@@ -1,5 +1,5 @@
 // import { Oferta } from './shared/Oferta.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_API } from '../app.api';
 import { Observable, throwError, of } from 'rxjs';
@@ -39,7 +39,8 @@ export class OfertasService {
   }
 
   public getOfertasPorCategoria(categoria: string): Promise<Oferta[]> {
-    return this.http.get<Oferta[]>(`${URL_API}/ofertas?categoria=${categoria}`)
+    let headers = new HttpHeaders({'Set-Cookie': 'HttpOnly;Secure;SameSite=Strict'}); 
+    return this.http.get<Oferta[]>(`${URL_API}/ofertas?categoria=${categoria}`, { headers: headers})
       .toPromise()
       .then((o => this.ofertas = o))
   }

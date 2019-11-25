@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
@@ -46,7 +46,8 @@ export class AccountPage implements OnInit {
     private ordemCompraService: OrdemCompraService,
     private router: Router,
     private _route: ActivatedRoute,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private zone: NgZone
   ) {
     // this.productsSubscription = this.productsService.getProducts().subscribe(data => {
     //   // this.products = data;
@@ -72,7 +73,7 @@ export class AccountPage implements OnInit {
     this._route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.dataUser()
-      }else {
+      } else {
         this.dataUser()
       }
     });
@@ -83,62 +84,66 @@ export class AccountPage implements OnInit {
   public async dataUser() {
     await this.presentLoading()
 
-    await this.authService.getUser(this.fireAuth.auth.currentUser.email).then((dados) => {
-      console.log('DADOS: ',dados)
+    this.zone.run(async () => {
 
-      this.dadosUser = dados
+      await this.authService.getUser(this.fireAuth.auth.currentUser.email).then((dados) => {
+        console.log('DADOS: ', dados)
 
-      this.paramService.setUser(this.dadosUser)
+        this.dadosUser = dados
 
-      for (let index = 0; index < this.dadosUser.length; index++) {
-        const element = this.dadosUser[index];
-        this.userData = element.email
-        this.userAdmin = element.isAdmin
-      }
+        this.paramService.setUser(this.dadosUser)
 
-      console.log('EMAIL USUÁRIO: ', this.userData)
+        for (let index = 0; index < this.dadosUser.length; index++) {
+          const element = this.dadosUser[index];
+          this.userData = element.email
+          this.userAdmin = element.isAdmin
+        }
+
+        console.log('EMAIL USUÁRIO: ', this.userData)
 
 
-      if(this.userAdmin === true) {
-        this.ofertasService.getCarrinhosPorAdmin().subscribe((data) => {
-          console.log('DADOS DO CARRINHO GERAL:', data)
-          this.produtosAdmin = data
-        })
-        this.loadingController.dismiss()
-      }else {
-        this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
+        if (this.userAdmin === true) {
+          this.ofertasService.getCarrinhosPorAdmin().subscribe((data) => {
+            console.log('DADOS DO CARRINHO GERAL:', data)
+            this.produtosAdmin = data
+          })
+          this.loadingController.dismiss()
+        } else {
+          this.ofertasService.getCarrinhoPorEmail(this.userData).subscribe((dados) => {
 
-          if (dados.status === 404) {
-            this.loadingController.dismiss()
-            console.log('ENTROU AQ')
-          } else {
-  
-            console.log('PEDIDOS DOS CARRINHOS: ', dados)
-  
-            this.filterPedidos = dados
-  
-            const filtered = this.filterPedidos.filter(data => data.email_cliente === this.userData)
-  
-            console.log(filtered)
-  
-            if (filtered.length) {
-              this.carrinhoClient = dados
-              this.paramService.setCarrinhoCliente(this.carrinhoClient)
-              this.produtosCadastrados = true
+            if (dados.status === 404) {
+              this.loadingController.dismiss()
+              console.log('ENTROU AQ')
+            } else {
+
+              console.log('PEDIDOS DOS CARRINHOS: ', dados)
+
+              this.filterPedidos = dados
+
+              const filtered = this.filterPedidos.filter(data => data.email_cliente === this.userData)
+
+              console.log(filtered)
+
+              if (filtered.length) {
+                this.carrinhoClient = dados
+                this.paramService.setCarrinhoCliente(this.carrinhoClient)
+                this.produtosCadastrados = true
+              }
+
+              this.loadingController.dismiss()
             }
 
+            console.log(this.carrinhoClient)
+
+          }, (error) => {
+            console.log(error)
             this.loadingController.dismiss()
-          }
-  
-          console.log(this.carrinhoClient)
-  
-        }, (error) => {
-          console.log(error)
-          this.loadingController.dismiss()
-          this.produtosCadastrados = false
-        })
-      }
-      // this.loadingController.dismiss()
+            this.produtosCadastrados = false
+          })
+        }
+        // this.loadingController.dismiss()
+      })
+
     })
   }
 
